@@ -1,6 +1,6 @@
 /**
  * TestArchivoDatos.java
- * 
+ *
  * En esta clase con método main se prueba el funcionamiento de la clase
  * ArchivoDeDatos
  */
@@ -21,38 +21,39 @@ public class TestArchivoDatos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArchivoDeDatos a = new ArchivoDeDatos("src/estadisticadescriptiva/archivosdeprueba/jeje.txt",",");
+        ArchivoDeDatos a = new ArchivoDeDatos("separadorTab.txt", "\t");
         double[] datos = a.getDatos(false);
         double aux = 0;
         System.out.println(datos.length);
         //ordenarlos
         int c = datos.length;
-        for(int i = 0; i < c -1; i++){
-            for(int j = 0;j < c -1; j++){
-                if(datos[j+1] < datos[j]){
-                    aux = datos[j+1];
-                    datos[j+1] = datos[j];
+        for (int i = 0; i < c - 1; i++) {
+            for (int j = 0; j < c - 1; j++) {
+                if (datos[j + 1] < datos[j]) {
+                    aux = datos[j + 1];
+                    datos[j + 1] = datos[j];
                     datos[j] = aux;
-                } 
+                }
             }
         }
-        for(int i = 0; i < c; i++){
-            
-            System.out.println(datos[i]);
+        System.out.println( "Errores: "  + a.getCuentaErrores() + " \n" + a.getErrores());
+        for(int i =0; i < c; i++){
+            System.out.println((i + 1) + " " + datos[i]);
         }
         /*Random r = new Random();
         try{
             
-             FileWriter w = new FileWriter(new File("C:/users/tharduz/Desktop/jeje.txt"));
+             FileWriter w = new FileWriter(new File("separadorTab.txt"));
              w.write(Double.toString(Math.abs(r.nextDouble())));
              for(int i =0; i < 9999; i++){
-                 w.write("," + Math.abs(r.nextDouble()));
+                 w.write("\t" + Math.abs(r.nextDouble()));
+                 
              }
              w.close();
         }catch(Exception ex){
             
         }*/
-       
+
     }
-    
+
 }
