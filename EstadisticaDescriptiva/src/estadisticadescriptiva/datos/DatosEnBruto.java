@@ -28,7 +28,16 @@ public class DatosEnBruto extends Datos {
         this.n = datos.length;
         ordenarDatos();
     }
-
+    //-Métodos de acceso.
+    public double[] getDatos(){
+        return this.datos;
+    }
+    
+    public void setDatos(double[] datos){
+        this.datos = datos;
+        ordenarDatos();
+        this.n = datos.length;
+    }
     //-Métodos específicos.
     /**
      * Ordena los datos del arreglo llamado Datos

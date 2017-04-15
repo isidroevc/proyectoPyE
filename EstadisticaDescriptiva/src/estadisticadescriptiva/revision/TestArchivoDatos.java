@@ -21,7 +21,7 @@ public class TestArchivoDatos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArchivoDeDatos a = new ArchivoDeDatos("separadorTab.txt", "\t");
+        /*ArchivoDeDatos a = new ArchivoDeDatos("separadorTab.txt", "\t");
         double[] datos = a.getDatos(false);
         double aux = 0;
         System.out.println(datos.length);
@@ -39,20 +39,19 @@ public class TestArchivoDatos {
         System.out.println( "Errores: "  + a.getCuentaErrores() + " \n" + a.getErrores());
         for(int i =0; i < c; i++){
             System.out.println((i + 1) + " " + datos[i]);
-        }
-        /*Random r = new Random();
+        }*/
+        Random r = new Random();
         try{
             
              FileWriter w = new FileWriter(new File("separadorTab.txt"));
-             w.write(Double.toString(Math.abs(r.nextDouble())));
-             for(int i =0; i < 9999; i++){
-                 w.write("\t" + Math.abs(r.nextDouble()));
+             for(int i =0; i < 10000; i++){
+                 w.write("\t" + Math.abs(r.nextInt()) % 125 + 25);
                  
              }
              w.close();
         }catch(Exception ex){
             
-        }*/
+        }
 
     }
 
