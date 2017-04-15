@@ -63,6 +63,7 @@ public class DatosAgrupados extends Datos {
                 noClases = (int) (noClasesSR);
                 break;
         }
+        noClases = 9;
         amplitud = (limiteUS - limiteUI) / noClases;
         semiAmplitud = amplitud / 2;
         clases = new Clase[noClases];
