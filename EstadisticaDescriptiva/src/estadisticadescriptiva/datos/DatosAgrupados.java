@@ -33,7 +33,12 @@ public class DatosAgrupados extends Datos {
         this.formulaNC = formulaNC;
         agruparDatos();
     }
-
+    //-Métodos de acceso.
+    public Clase[] getClases(){
+        return this.clases;
+    }
+    
+    
     // -Métodos especificos de funcionamiento.
     /**
      * Agrupa los datos contenidos en el arreglo datos creando de nuevo el
