@@ -17,7 +17,8 @@ import java.util.ArrayList;
 public class TestDatosEnBruto {
 
     public static void main(String[] args) {
-        double[] datos = new ArchivoDeDatos("separadorTab.txt","\t").getDatos(true);
+        ArchivoDeDatos a = new ArchivoDeDatos("separadorTab.txt","\t");
+        double[] datos =  a.getDatos(true);
         //double[] datos = {1, 1, 3, 3, 5, 6, 7, 8, 9, 10,11};
         String modass = "";
         DatosEnBruto prueba = new DatosEnBruto(datos);
@@ -28,7 +29,7 @@ public class TestDatosEnBruto {
             }
         }
         System.out.println(prueba.toString());
-
+        System.out.println("Errores: "+ a.getErrores());
     }
 
 }

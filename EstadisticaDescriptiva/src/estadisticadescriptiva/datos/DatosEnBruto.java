@@ -50,7 +50,9 @@ public class DatosEnBruto extends Datos {
         double aux;
         for (int i = 0, cuenta = datos.length; i < cuenta; i++) {
             for (int j = 0; j < cuenta - 1; j++) {
+                //Si el que sigue es menor que en el que estoy 
                 if (datos[j + 1] < datos[j]) {
+                    //Los cambio
                     aux = datos[j + 1];
                     datos[j + 1] = datos[j];
                     datos[j] = aux;
