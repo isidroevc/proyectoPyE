@@ -5,6 +5,7 @@
  */
 package estadisticadescriptiva.revision;
 
+import estadisticadescriptiva.datos.ArchivoDeDatos;
 import estadisticadescriptiva.datos.DatosAgrupados;
 import estadisticadescriptiva.datos.DatosEnBruto;
 import estadisticadescriptiva.graficas.Histograma;
@@ -24,9 +25,9 @@ public class TestHistograma {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        double[] datos = {1,2,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10};
-        //ArchivoDeDatos a = new ArchivoDeDatos("separadorTab.txt","\t");
-        DatosEnBruto origen = new DatosEnBruto(datos);
+        //double[] datos = {1,2,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10};
+        ArchivoDeDatos a = new ArchivoDeDatos("separadorTab.txt","\t");
+        DatosEnBruto origen = new DatosEnBruto(a.getDatos(true));
         double sd = origen.calcularDeviacionE();
         File f = new File("tabla.html");
         DatosAgrupados da = new DatosAgrupados(origen,DatosAgrupados.FormulasNC.Sturges);
