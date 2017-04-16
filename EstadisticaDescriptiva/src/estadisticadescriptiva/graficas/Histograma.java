@@ -8,6 +8,7 @@ package estadisticadescriptiva.graficas;
 import estadisticadescriptiva.datos.Clase;
 import estadisticadescriptiva.datos.DatosAgrupados;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -21,7 +22,7 @@ public class Histograma extends Grafica {
     private DatosAgrupados origen;
     private Clase[] clases;
     private boolean forzar; // - Indica si deben forzarse las dimensiones dadas
-    public final static float MARGEN_X = 0.1f, MARGEN_Y = 0.2f; // 10% demargen
+    public final static float MARGEN_X = 0.1f, MARGEN_Y = 0.15f; // 10% demargen
     public final int MIN_ANCHO_BARRA = 10;
 
     // -Constructor
@@ -53,7 +54,8 @@ public class Histograma extends Grafica {
     @Override
     public void dibujar() {
         int margenX,
-            margenY,
+            margenYinf,
+            margenYsup,
             nClases,
             anchoBarra,
             longitudEjeX,
@@ -74,17 +76,17 @@ public class Histograma extends Grafica {
         nClases = clases.length;
 
         margenX = (int) (anchura * MARGEN_X);
-        margenY = (int) (altura * MARGEN_Y);
+        margenYinf = (int) (altura * MARGEN_Y);
+        margenYsup = (int)(altura * 0.5 * MARGEN_Y);
         longitudEjeX = anchura - 2 * margenX + 10;
-        longitudEjeY = (altura - 2 * margenY);
+        longitudEjeY = (altura - margenYsup - margenYinf);
         anchoBarra = (int) (longitudEjeX / nClases);
         coefPF = (double) longitudEjeY / frecuenciaMaxima;
         if (!forzar && anchoBarra < MIN_ANCHO_BARRA) {
-            anchura = anchura * MIN_ANCHO_BARRA * nClases + margenX;
+            anchura = MIN_ANCHO_BARRA * nClases + margenX;
             anchoBarra = MIN_ANCHO_BARRA;
             longitudEjeX = anchura - 2 * margenX + 10;
         }
-        System.out.println("altura: " + altura + " anchura: " + anchura);
         grafica = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_ARGB);
         pluma = grafica.getGraphics();
         pluma.setColor(fondo);
@@ -94,19 +96,22 @@ public class Histograma extends Grafica {
         pluma.setColor(Color.BLACK);
         //Trazar los ejes.
         //Eje X
-        pluma.drawLine(margenX, altura - margenY, anchura - margenX, altura - margenY);
+        pluma.drawLine(margenX, altura - margenYinf, anchura - margenX, altura - margenYinf);
         // Eje Y
-        pluma.drawLine(margenX, altura - margenY, margenX, margenY);
+        pluma.drawLine(margenX, altura - margenYinf, margenX, margenYsup);
 
-        //trazar cada una de las barras.
+        //Trazar cada una de las barras.
         i = margenX + 10;
-        System.out.println("coef: " + coefPF);
+        //pluma.setFont(new Font("Times New Roman", 10, 0));
+        pluma.drawString("Perrito", 230, 200);
         for (Clase c : clases) {
             alturaBarra = (int) (coefPF * (double) c.getFrecuenciaA());
-
-            pluma.drawRect(i, margenY + (longitudEjeY - alturaBarra), anchoBarra, alturaBarra);
+            System.out.println("longitudEjeY: " + longitudEjeY);
+            pluma.drawRect(i, margenYsup + (longitudEjeY - alturaBarra), anchoBarra, alturaBarra);
             i += anchoBarra;
         }
+        //Trazar la escala en y.
+        
     }
 
 }
