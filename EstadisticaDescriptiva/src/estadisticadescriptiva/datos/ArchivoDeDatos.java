@@ -77,7 +77,7 @@ public class ArchivoDeDatos {
         }
         flujoEntrada = new FileInputStream(archivo); // -Crear flujo de entrada
         bytesArchivo = new byte[(int) archivo.length()];
-
+        //leer los bytes del archivo
         flujoEntrada.read(bytesArchivo);
 
         textoArchivo = new String(bytesArchivo, codificacion);

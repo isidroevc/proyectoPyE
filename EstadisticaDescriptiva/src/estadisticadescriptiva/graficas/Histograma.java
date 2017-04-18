@@ -62,9 +62,7 @@ public class Histograma extends Grafica {
             longitudEjeY,
             frecuenciaMaxima = Integer.MIN_VALUE,
             alturaBarra,
-            i,
-            alturaFuente,
-            anchoFuente;
+            i;
         double coefPF;
         Graphics pluma;
 
@@ -105,7 +103,7 @@ public class Histograma extends Grafica {
         //Trazar cada una de las barras.
         i = margenX + 10;
         //pluma.setFont(new Font("Times New Roman", 10, 0));
-        pluma.drawString("Perrito", 230, 200);
+        
         for (Clase c : clases) {
             alturaBarra = (int) (coefPF * (double) c.getFrecuenciaA());
             System.out.println("longitudEjeY: " + longitudEjeY);
@@ -113,8 +111,10 @@ public class Histograma extends Grafica {
             i += anchoBarra;
         }
         //Trazar la escala en y.
-        alturaFuente = pluma.getFontMetrics().getHeight();
+        //alturaFuente = pluma.getFontMetrics().getHeight();
         //anchuraFuente = pluma.getFontMetrics().getW
+        
+        
     }
 
 }

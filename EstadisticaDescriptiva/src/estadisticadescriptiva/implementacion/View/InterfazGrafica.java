@@ -37,9 +37,10 @@ public class InterfazGrafica extends JFrame{
         n.mostrar();
     }
     
-    void mostrar(){
+    public void mostrar(){
         crear();
         ensamblar();
+        this.setVisible(true);
     }
     
     void crear() {
