@@ -30,9 +30,10 @@ public class TestHistograma {
         DatosEnBruto origen = new DatosEnBruto(a.getDatos(true));
         double sd = origen.calcularDeviacionE();
         File f = new File("tabla.html");
-        DatosAgrupados da = new DatosAgrupados(origen,DatosAgrupados.FormulasNC.Sturges);
-        //Histograma h = new Histograma(640,480,Color.WHITE,da,false);
-        Histograma h = new Histograma(1280,960,Color.WHITE,da,false);
+        DatosAgrupados da = new DatosAgrupados(origen,DatosAgrupados.FormulasNC.SQRT);
+        Histograma h = new Histograma(640,480,Color.WHITE,da,false);
+        //Histograma h = new Histograma(1280,960,Color.WHITE,da,false);
+        //Histograma h = new Histograma(2560,1820,Color.WHITE,da,false);
         h.dibujar();
         
         try {
