@@ -43,9 +43,13 @@ public class TestArchivoDatos {
         Random r = new Random();
         try{
             
-             FileWriter w = new FileWriter(new File("separadorTab.txt"));
-             for(int i =0; i < 10000; i++){
-                 w.write("\t" + Math.abs(r.nextInt()) % 125 + 25);
+             FileWriter w = new FileWriter(new File("separadorComa.txt"));
+             for(int i =0; i < 150; i++){
+                 if(i % 3 == 0)
+                    w.write("," + Math.abs(r.nextInt()) % 125 + 25);
+                 else{
+                     w.write("," + Math.abs(r.nextDouble()));
+                 }
                  
              }
              w.close();

@@ -23,7 +23,7 @@ public class Histograma extends Grafica {
     private Clase[] clases;
     private boolean forzar; // - Indica si deben forzarse las dimensiones dadas
     public final static float MARGEN_X = 0.1f, MARGEN_Y = 0.15f; // 10% demargen
-    public final int MIN_ANCHO_BARRA = 10;
+    public final int ANCHO_ESTANDAR = 480, ALTO_ESTANDAR = 640,MIN_ANCHO_BARRA = 10;
 
     // -Constructor
     public Histograma(int altura, int anchura, Color fondo,
@@ -62,10 +62,13 @@ public class Histograma extends Grafica {
             longitudEjeY,
             frecuenciaMaxima = Integer.MIN_VALUE,
             alturaBarra,
+            escalaX,escalaY,cifraEscala,
+            anchoCaracter,
+            longitudDivY,
             i;
         double coefPF;
         Graphics pluma;
-
+        String cifraEscalaStr;
         //NOTA: TODAS LAS DIMENSIONES SON ENTEROS YA QUE NO SE PUEDEN DIVIDIR
         //PIXELES
         for (Clase c : clases) {
@@ -111,9 +114,22 @@ public class Histograma extends Grafica {
             i += anchoBarra;
         }
         //Trazar la escala en y.
-        //alturaFuente = pluma.getFontMetrics().getHeight();
-        //anchuraFuente = pluma.getFontMetrics().getW
+        System.out.println(frecuenciaMaxima);
+        escalaY = longitudEjeY/12;
+        longitudDivY = 5 * (anchura/ANCHO_ESTANDAR);
         
+        pluma.setFont(new  Font(pluma.getFont().getName(),0, escalaY/3));
+        anchoCaracter = pluma.getFontMetrics().getWidths()[125];
+        System.out.println(anchoCaracter);
+        i = margenYsup;
+        for(int j = 0; j < 12; j++){
+            pluma.drawLine(margenX - longitudDivY, i, margenX, i);
+            cifraEscala =  (int)((12-j) * (escalaY/coefPF));
+            cifraEscalaStr = Integer.toString(cifraEscala);
+            pluma.drawString(cifraEscalaStr,margenX - cifraEscalaStr.length() - 2* anchoCaracter,i-3);
+            i+=escalaY;
+            
+        }
         
     }
 
