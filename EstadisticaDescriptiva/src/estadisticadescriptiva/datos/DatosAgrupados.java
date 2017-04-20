@@ -118,7 +118,7 @@ public class DatosAgrupados extends Datos {
 
     @Override
     public double calcularRango() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.limiteUS - this.limiteUS;
     }
 
     public String getTablaHtml() {

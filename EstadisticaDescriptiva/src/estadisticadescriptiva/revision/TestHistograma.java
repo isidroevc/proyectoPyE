@@ -26,11 +26,11 @@ public class TestHistograma {
      */
     public static void main(String[] args) {
         //double[] datos = {1,2,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10};
-        ArchivoDeDatos a = new ArchivoDeDatos("separadorTab.txt","\t");
+        ArchivoDeDatos a = new ArchivoDeDatos("separadorComa.txt",",");
         DatosEnBruto origen = new DatosEnBruto(a.getDatos(true));
         double sd = origen.calcularDeviacionE();
         File f = new File("tabla.html");
-        DatosAgrupados da = new DatosAgrupados(origen,DatosAgrupados.FormulasNC.SQRT);
+        DatosAgrupados da = new DatosAgrupados(origen,DatosAgrupados.FormulasNC.Sturges);
         Histograma h = new Histograma(640,480,Color.WHITE,da,false);
         //Histograma h = new Histograma(1280,960,Color.WHITE,da,false);
         //Histograma h = new Histograma(2560,1820,Color.WHITE,da,false);

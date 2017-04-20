@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -70,13 +71,15 @@ public class Histograma extends Grafica {
             longitudEjeY,
             frecuenciaMaxima = Integer.MIN_VALUE,
             alturaBarra,
-            escala,cifraEscala,
+            escala,
+            noEscalas,
             anchoCaracter,
             longitudDivY,
             espacioAnterior,
             i;
-        double coefPF;
+        double coefPF,cifraEscala,amplitudEscala, datoMinimo, rango;
         Graphics2D pluma;
+        DecimalFormat formato = new DecimalFormat("########.####");
         String cifraEscalaStr;
         //NOTA: TODAS LAS DIMENSIONES SON ENTEROS YA QUE NO SE PUEDEN DIVIDIR
         //PIXELES
@@ -90,15 +93,10 @@ public class Histograma extends Grafica {
         margenX = (int) (anchura * MARGEN_X);
         margenYinf = (int) (altura * MARGEN_Y);
         margenYsup = (int)(altura * 0.5 * MARGEN_Y);
-        longitudEjeX = anchura - 2 * margenX + 10;
+        longitudEjeX = anchura - 2 * margenX;
         longitudEjeY = (altura - margenYsup - margenYinf);
         anchoBarra = (int) (longitudEjeX / nClases);
         coefPF = (double) longitudEjeY / frecuenciaMaxima;
-        if (!forzar && anchoBarra < MIN_ANCHO_BARRA) {
-            anchura = MIN_ANCHO_BARRA * nClases + margenX;
-            anchoBarra = MIN_ANCHO_BARRA;
-            longitudEjeX = anchura - 2 * margenX + 10;
-        }
         grafica = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_ARGB);
         pluma = (Graphics2D)grafica.getGraphics();
         pluma.setColor(fondo);
@@ -111,7 +109,7 @@ public class Histograma extends Grafica {
         pluma.setColor(Color.BLACK);
         //Trazar los ejes.
         //Eje X
-        pluma.drawLine(margenX, altura - margenYinf, anchura - margenX, altura - margenYinf);
+        pluma.drawLine(margenX, altura - margenYinf, longitudEjeX + margenX, altura - margenYinf);
         // Eje Y
         pluma.drawLine(margenX, altura - margenYinf, margenX, margenYsup);
 
@@ -137,26 +135,42 @@ public class Histograma extends Grafica {
         for(int j = 0; j <= 12; j++){
             pluma.drawLine(margenX - longitudDivY, i, margenX, i);
             cifraEscala =  (int)((12 -j) * (escala/coefPF));
-            cifraEscalaStr = Integer.toString(cifraEscala);
+            cifraEscalaStr = Double.toString(cifraEscala);
             pluma.drawString(cifraEscalaStr,margenX - cifraEscalaStr.length()* anchoCaracter -longitudDivY,i-3);
             i+=escala;
             
         }
+        noEscalas = -1;
+        for(i = 3; i <= 9; i++){
+            if(clases.length % i == 0){
+                noEscalas = i;
+            }
+        }
+        if(noEscalas == -1){
+            noEscalas = 4;
+        }
         //trazar escala en X
-        longitudGuia = anchoBarra * clases.length + margenX +espacioAnterior;
-        System.out.println("guia: " + longitudGuia);
+        
+        longitudGuia = clases.length * anchoBarra;
+        escala = longitudGuia/noEscalas;
         pluma.drawLine(margenX + espacioAnterior, 
                 altura - (margenYinf - espacioAnterior), 
-                longitudGuia, 
+                longitudGuia + margenX + espacioAnterior, 
                 altura - (margenYinf - espacioAnterior));
         
+        rango = (clases[clases.length - 1].getLimiteSuperior()  - clases[0].getLimiteInferior());
         
-        //
-        escala = (int)(longitudGuia/4);
+        amplitudEscala = rango/noEscalas;
         i = margenX + espacioAnterior;
-        for(int j= 0; j <= 4; j++){
-            pluma.drawLine(i,altura - margenYinf, i, altura - margenYinf + longitudDivY +espacioAnterior);
-            i+=escala;
+        datoMinimo = clases[0].getLimiteInferior();
+        for(int j= 0; j <= noEscalas; j++){
+            cifraEscala = amplitudEscala * j + datoMinimo;
+            cifraEscalaStr = formato.format(cifraEscala);
+            pluma.drawLine(i,altura-(margenYinf - espacioAnterior),i,altura - (margenYinf - espacioAnterior - longitudDivY));
+            pluma.drawString(cifraEscalaStr,
+                    i-(cifraEscalaStr.length() * anchoCaracter)/2,
+                    altura - (margenYinf - espacioAnterior - (j%2)* longitudDivY - 3*longitudDivY));
+            i += escala;
         }
     }
 
