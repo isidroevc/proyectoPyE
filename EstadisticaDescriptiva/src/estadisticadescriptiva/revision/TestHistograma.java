@@ -26,7 +26,7 @@ public class TestHistograma {
      */
     public static void main(String[] args) {
         //double[] datos = {1,2,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10};
-        ArchivoDeDatos a = new ArchivoDeDatos("separadorComa.txt",",");
+        ArchivoDeDatos a = new ArchivoDeDatos("separadorSalto.txt","\n");
         DatosEnBruto origen = new DatosEnBruto(a.getDatos(true));
         double sd = origen.calcularDeviacionE();
         File f = new File("tabla.html");

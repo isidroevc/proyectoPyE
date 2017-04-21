@@ -41,20 +41,17 @@ public class TestArchivoDatos {
             System.out.println((i + 1) + " " + datos[i]);
         }*/
         Random r = new Random();
-        try{
-            
-             FileWriter w = new FileWriter(new File("separadorTab.txt"));
-             for(int i =0; i < 10000; i++){
-                 if(i % 3 == 0)
-                    w.write("\t" + Math.abs(r.nextInt()) % 125 + 25);
-                 else{
-                     w.write("\t" + Math.abs(r.nextDouble()));
-                 }
-                 
-             }
-             w.close();
-        }catch(Exception ex){
-            
+        try {
+
+            FileWriter w = new FileWriter(new File("separadorSalto.txt"));
+            for (int i = 0; i < 150; i++) {
+
+                w.write("\n" + Math.abs(r.nextInt()) % 125 + 25);
+
+            }
+            w.close();
+        } catch (Exception ex) {
+
         }
 
     }

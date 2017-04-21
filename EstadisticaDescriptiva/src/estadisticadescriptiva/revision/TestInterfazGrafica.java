@@ -5,7 +5,7 @@
  */
 package estadisticadescriptiva.revision;
 
-import estadisticadescriptiva.implementacion.View.InterfazGrafica;
+import estadisticadescriptiva.View.InterfazGrafica;
 
 /**
  *

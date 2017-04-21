@@ -80,7 +80,7 @@ public class Histograma extends Grafica {
         double coefPF,cifraEscala,amplitudEscala, datoMinimo, rango;
         Graphics2D pluma;
         DecimalFormat formato = new DecimalFormat("########.####");
-        String cifraEscalaStr;
+        String cifraEscalaStr, leyendas;
         //NOTA: TODAS LAS DIMENSIONES SON ENTEROS YA QUE NO SE PUEDEN DIVIDIR
         //PIXELES
         for (Clase c : clases) {
@@ -124,7 +124,7 @@ public class Histograma extends Grafica {
             i += anchoBarra;
         }
         //Trazar la escala en y.
-        System.out.println(frecuenciaMaxima);
+
         escala = longitudEjeY/12;
         longitudDivY = 5 * (anchura/ANCHO_ESTANDAR);
         
@@ -141,7 +141,7 @@ public class Histograma extends Grafica {
             
         }
         noEscalas = -1;
-        for(i = 3; i <= 9; i++){
+        for(i = 3; i <= 15; i++){
             if(clases.length % i == 0){
                 noEscalas = i;
             }
@@ -169,9 +169,18 @@ public class Histograma extends Grafica {
             pluma.drawLine(i,altura-(margenYinf - espacioAnterior),i,altura - (margenYinf - espacioAnterior - longitudDivY));
             pluma.drawString(cifraEscalaStr,
                     i-(cifraEscalaStr.length() * anchoCaracter)/2,
-                    altura - (margenYinf - espacioAnterior - (j%2)* longitudDivY - 3*longitudDivY));
+                    altura - (margenYinf - espacioAnterior - (j%2)* (longitudDivY+3) - 3*longitudDivY));
             i += escala;
         }
+        //Colocar leyenda "Histograma"
+        leyendas = "Histograma";
+        pluma.drawString(leyendas, (anchura - (leyendas.length() * anchoCaracter))/2,
+                espacioAnterior*2);
+        leyendas = "Unidades";
+        pluma.drawString(leyendas, (anchura - (leyendas.length() * anchoCaracter))/2,
+                altura - 4*espacioAnterior);
+        pluma.rotate((double)(Math.PI/-2));
+        pluma.drawString("Sigigilo", 125,125);
     }
 
 }
