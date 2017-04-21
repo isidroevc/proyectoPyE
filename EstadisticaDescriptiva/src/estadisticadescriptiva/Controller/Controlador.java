@@ -15,6 +15,8 @@ import java.math.BigInteger;
 import java.net.URI;
 import javafx.application.Application;
 import java.awt.Color;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import javafx.stage.Stage;
 import javax.swing.JFileChooser;
 
@@ -78,11 +80,15 @@ public class Controlador extends Application {
         boolean valido = true;
         int i = 0;
         String separador = null;
+        String html = "<html> <body> <h1>Reporte de los datos.</h1><br> <center>";
+        String modasS = "";
         double[] datos;
+        ArrayList<Double> modas;
         ArchivoDeDatos archivoDatos;
         DatosEnBruto datosBruto;
         DatosAgrupados datosAgrupados;
         Histograma histograma;
+        FileWriter w;
         if (archivo == null) {
             valido = false;
             interfaz.mandarMensaje("No se ha seleccionado un archivo.");
@@ -109,7 +115,7 @@ public class Controlador extends Application {
         if (valido) {
             archivoDatos = new ArchivoDeDatos(archivo.getPath(), separador);
             datos = archivoDatos.getDatos(true);
-            if(datos == null || datos.length == 0){
+            if (datos == null || datos.length == 0) {
                 System.out.println("Separador: " + sep);
                 System.out.println(archivoDatos.getErrores());
             }
@@ -118,15 +124,40 @@ public class Controlador extends Application {
             datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.Sturges);
             histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados, false);
             histograma.dibujar();
+            modas = datosBruto.calcularModa();
+            for(int j = 0, c = modas.size(); j < c; j++){
+                modasS += modas.get(j);
+                if(j != c -1){
+                    modasS += ", ";
+                }
+            }
+            html = "<html> <body> <h1>Reporte de los datos.</h1><br> <center>";
+            html += "<p>Numero de datos: " + datosBruto.getN() + "<p>"
+                    + "<p>Media: " + datosBruto.calcularMedia() + "</p>"
+                    + "<p>Mediana: " + datosBruto.calcularMediana() + "</p>"
+                    + "<p>Modas: " + modas +"</p>"
+                    + "<p>Varianza: " + datosBruto.calcularVarianza()+ "</p>"
+                    + "<p>Rango: " + datosBruto.calcularRango()
+                    + "<p>Desviacion E.: " + datosBruto.calcularDeviacionE()+ "</p>"
+                    + datosAgrupados.getTablaHtml()
+                    + "<img src = 'histograma.png'/></center></body></html>";
+            
             try {
                 histograma.guardarEnDisco("histograma.png", "PNG");
-                Desktop.getDesktop().browse(new File("histograma.png").toURI());
-                Desktop.getDesktop().browse(new File("tabla.html").toURI());
-                
+                //Desktop.getDesktop().browse(new File("histograma.png").toURI());
+                //Desktop.getDesktop().browse(new File("tabla.html").toURI());
+                w = new FileWriter(new File("reporte.html"));
+                w.write(html);
+                w.close();
+                Desktop.getDesktop().browse(new File("reporte.html").toURI());
             } catch (Exception ex) {
 
             }
         }
+    }
+
+    private void crearReporte(double media, double mediana, String modas, double desviacionE, double varianza) {
+
     }
 
     @Override
