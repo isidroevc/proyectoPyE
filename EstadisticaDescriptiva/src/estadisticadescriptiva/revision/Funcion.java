@@ -8,7 +8,12 @@ public class Funcion {
 
     public static void main(String[] args) {
         //Se crean datos aleatorios de prueba.
-        double[] datos = new ArchivoDeDatos("separadorTab.txt", "\t").getDatos(true);
+        double[] datos = null;
+        try{
+         datos = new ArchivoDeDatos("separadorTab.txt", "\t").getDatos(true);
+        }catch(Exception ex){
+            
+        }
 
         /*Random aleatorios = new Random();
         System.out.println("Creando datos de prueba aleatorios");

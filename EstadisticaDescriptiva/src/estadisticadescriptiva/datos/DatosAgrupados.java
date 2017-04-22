@@ -33,12 +33,12 @@ public class DatosAgrupados extends Datos {
         this.formulaNC = formulaNC;
         agruparDatos();
     }
+
     //-Métodos de acceso.
-    public Clase[] getClases(){
+    public Clase[] getClases() {
         return this.clases;
     }
-    
-    
+
     // -Métodos especificos de funcionamiento.
     /**
      * Agrupa los datos contenidos en el arreglo datos creando de nuevo el
@@ -48,7 +48,7 @@ public class DatosAgrupados extends Datos {
         //Nota: se supone que los datos están ordenados.
         //Primero hay que calcular la cantidad de tolerancia.
         double amplitud, noClasesSR = 0, semiAmplitud = 0, aux = 0;
-        int i, j, noClases = 0,acum = 0;
+        int i, j, noClases = 0, acum = 0;
         tolerancia = DatosAgrupados.calcularTolerancia(datos[0]);
         limiteUI = datos[0] - tolerancia;
         limiteUS = datos[n - 1] + tolerancia;
@@ -77,32 +77,33 @@ public class DatosAgrupados extends Datos {
         //Ahora sigue determinar la frecuencia de cada clase.
         //El siguiente for solo funciona con los datos ORDENADOS DE MENOR A MAYOR.
         System.out.println("tolerancia: " + tolerancia);
-        for(Clase c : clases){
-            
-            for(double valor : datos){
-                if(c.pertenece(valor))
+        for (Clase c : clases) {
+
+            for (double valor : datos) {
+                if (c.pertenece(valor)) {
                     c.aumentarFrecuenciaA();
+                }
             }
             acum += c.getFrecuenciaA();
             c.setFrecuenciaAAc(acum);
-            c.setFrecuenciaR((double)c.getFrecuenciaA() / (double) n);
-            c.setFrecuenciaRAc((double)c.getFrecuenciaAAc() / (double) n);
+            c.setFrecuenciaR((double) c.getFrecuenciaA() / (double) n);
+            c.setFrecuenciaRAc((double) c.getFrecuenciaAAc() / (double) n);
         }
 
     }
 
     @Override
     public double calcularMedia() {
-       double media;
-       double sumatoria = 0;
-        for (Clase c : clases ){
-          
-            sumatoria +=  c.getMarca() * c.getFrecuenciaA();
-            
+        double media;
+        double sumatoria = 0;
+        for (Clase c : clases) {
+
+            sumatoria += c.getMarca() * c.getFrecuenciaA();
+
         }
-       
-       media = sumatoria / this.getN();
-       return media;
+
+        media = sumatoria / this.getN();
+        return media;
     }
 
     @Override
@@ -110,36 +111,68 @@ public class DatosAgrupados extends Datos {
         /*t = amplitu, Fi - 1 = frecuencia absoluta anterior,
         fi = frecuencia absoluta*/
         double mediana;
-        
+
         int saberDondeMeQuede = 0;
-        double limite = 0, t = 0, fi = 0, F= 0;
-        for(Clase c : clases){
-            
-            if (c.getFrecuenciaAAc() >= (this.getN()/2)){
-                
+        double limite = 0, t = 0, fi = 0, F = 0;
+        for (Clase c : clases) {
+
+            if (c.getFrecuenciaAAc() >= (this.getN() / 2)) {
+
                 break;
             }
-            saberDondeMeQuede ++;
+            saberDondeMeQuede++;
         }
         limite = clases[saberDondeMeQuede].getLimiteInferior();
-        t = clases [saberDondeMeQuede].getAmplitud();
-        fi = clases [saberDondeMeQuede].getFrecuenciaA();
+        t = clases[saberDondeMeQuede].getAmplitud();
+        fi = clases[saberDondeMeQuede].getFrecuenciaA();
         if (saberDondeMeQuede == 0) {
             F = 0;
         }
-        
-        mediana = limite + ((this.getN()/2)- F / fi) * t;
-        
+
+        mediana = limite + ((this.getN() / 2) - F / fi) * t;
+
         return mediana;
     }
-    
 
     @Override
     public ArrayList<Double> calcularModa() {
-       
-        
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+
+        ArrayList< Double> modas = new ArrayList<Double>();
+        double Li = 0, fi = 0, Fmy = 0, Fmn = 0, ti = 0;
+        double frecuenciaMayor = Double.MIN_VALUE;
+        double mo = 0;
+
+        for (int i = 0, c = clases.length; i < c; i++) {
+            if (clases[i].getFrecuenciaA() > frecuenciaMayor) {
+
+                frecuenciaMayor = clases[i].getFrecuenciaA();
+            }
+        }
+        System.out.println("Frecuencia my : " + frecuenciaMayor);
+        for (int i = 0, c = clases.length; i < c; i++) {
+
+            if (clases[i].getFrecuenciaA() == frecuenciaMayor) {
+
+                Li = clases[i].getLimiteInferior();
+                fi = clases[i].getFrecuenciaA();
+                ti = clases[i].getAmplitud();
+                if (i == c - 1) {
+                    Fmy = 0;
+                } else {
+                    Fmy = clases[i + 1].getFrecuenciaA();
+                }
+                if (i == 0) {
+                    Fmn = 0;
+                } else {
+                    Fmn = clases[i - 1].getFrecuenciaA();
+                }
+                mo = Li + ((fi - Fmn) / (fi - Fmn) + (fi - Fmy)) * ti;
+                modas.add(mo);
+            }
+
+        }
+
+        return modas;
     }
 
     @Override
@@ -147,14 +180,14 @@ public class DatosAgrupados extends Datos {
         double varianza = 0;
         double media = calcularMedia();
         double sumatoria = 0;
-        
-        for ( Clase c : clases){
-            
-            sumatoria += (c.getMarca() *c.getMarca())* c.getFrecuenciaA();
+
+        for (Clase c : clases) {
+
+            sumatoria += (c.getMarca() * c.getMarca()) * c.getFrecuenciaA();
         }
-        
-        varianza = (sumatoria/this.getN())- (media*media);
-        
+
+        varianza = (sumatoria / this.getN()) - (media * media);
+
         return varianza;
     }
 
@@ -224,6 +257,11 @@ public class DatosAgrupados extends Datos {
         }
         tolerancia = 5 * Math.pow(10, exponente);
         return tolerancia;
+    }
+
+    @Override
+    public String calcularSesgo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public enum FormulasNC {

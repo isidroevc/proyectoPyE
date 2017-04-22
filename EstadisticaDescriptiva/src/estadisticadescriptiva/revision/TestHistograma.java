@@ -27,7 +27,13 @@ public class TestHistograma {
     public static void main(String[] args) {
         //double[] datos = {1,2,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10};
         ArchivoDeDatos a = new ArchivoDeDatos("separadorSalto.txt","\n");
-        DatosEnBruto origen = new DatosEnBruto(a.getDatos(true));
+        
+        DatosEnBruto origen = null;
+        try{
+            origen = new DatosEnBruto(a.getDatos(true));
+        }catch(Exception ex){
+            
+        }
         double sd = origen.calcularDeviacionE();
         File f = new File("tabla.html");
         DatosAgrupados da = new DatosAgrupados(origen,DatosAgrupados.FormulasNC.Sturges);

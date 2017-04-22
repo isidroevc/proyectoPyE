@@ -140,6 +140,7 @@ public class Controlador extends Application {
             }
              System.out.println("Media D.A.: "+datosAgrupados.calcularMedia());
             System.out.println("Mediana D.A.: "+datosAgrupados.calcularMediana());
+            System.out.println("Moda D.A.:"+datosAgrupados.calcularModa());
             System.out.println("Varianza D.A.: "+datosAgrupados.calcularVarianza());
             System.out.println("Desviacion E. D.A.: "+datosAgrupados.calcularDeviacionE());
             
