@@ -35,6 +35,14 @@ public class Clase {
         this.limiteSuperior = lf;
         this.marca = marca;
     }
+
+    public double getAmplitud() {
+        return amplitud;
+    }
+
+    public void setAmplitud(double amplitud) {
+        this.amplitud = amplitud;
+    }
     public double getLimiteInferior() {
         return limiteInferior;
     }

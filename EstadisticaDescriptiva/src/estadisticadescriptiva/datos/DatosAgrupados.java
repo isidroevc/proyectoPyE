@@ -93,13 +93,46 @@ public class DatosAgrupados extends Datos {
 
     @Override
     public double calcularMedia() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       double media;
+       double sumatoria = 0;
+        for (Clase c : clases ){
+          
+            sumatoria +=  c.getMarca() * c.getFrecuenciaA();
+            
+        }
+       
+       media = sumatoria / this.getN();
+       return media;
     }
 
     @Override
     public double calcularMediana() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*t = amplitu, Fi - 1 = frecuencia absoluta anterior,
+        fi = frecuencia absoluta*/
+        double mediana;
+        
+        int saberDondeMeQuede = 0;
+        double limite = 0, t = 0, fi = 0, F= 0;
+        for(Clase c : clases){
+            
+            if (c.getFrecuenciaAAc() >= (this.getN()/2)){
+                
+                break;
+            }
+            saberDondeMeQuede ++;
+        }
+        limite = clases[saberDondeMeQuede].getLimiteInferior();
+        t = clases [saberDondeMeQuede].getAmplitud();
+        fi = clases [saberDondeMeQuede].getFrecuenciaA();
+        if (saberDondeMeQuede == 0) {
+            F = 0;
+        }
+        
+        mediana = limite + ((this.getN()/2)- F / fi) * t;
+        
+        return mediana;
     }
+    
 
     @Override
     public ArrayList<Double> calcularModa() {

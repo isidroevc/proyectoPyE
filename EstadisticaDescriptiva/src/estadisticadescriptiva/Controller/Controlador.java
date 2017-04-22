@@ -131,6 +131,8 @@ public class Controlador extends Application {
                     modasS += ", ";
                 }
             }
+            System.out.println("Mediana D.A.: "+datosAgrupados.calcularMediana());
+            System.out.println("Media D.A.: "+datosAgrupados.calcularMedia());
             html = "<html> <body> <h1>Reporte de los datos.</h1><br> <center>";
             html += "<p>Numero de datos: " + datosBruto.getN() + "<p>"
                     + "<p>Media: " + datosBruto.calcularMedia() + "</p>"
