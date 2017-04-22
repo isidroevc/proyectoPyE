@@ -150,7 +150,7 @@ public class DatosAgrupados extends Datos {
         
         for ( Clase c : clases){
             
-            sumatoria += (c.getMarca() * c.getFrecuenciaA())*(c.getMarca() * c.getFrecuenciaA());
+            sumatoria += (c.getMarca() *c.getMarca())* c.getFrecuenciaA();
         }
         
         varianza = (sumatoria/this.getN())- (media*media);
