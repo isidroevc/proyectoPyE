@@ -72,9 +72,6 @@ public class ArchivoDeDatos {
         int i, j, longitud;
         archivo = new File(ruta);
 
-        if (archivo == null) {
-            throw new FileNotFoundException();
-        }
         flujoEntrada = new FileInputStream(archivo); // -Crear flujo de entrada
         bytesArchivo = new byte[(int) archivo.length()];
         //leer los bytes del archivo
@@ -121,13 +118,9 @@ public class ArchivoDeDatos {
      * @param releer
      * @return datos, los datos que contiene el archivo en un arreglo de double
      */
-    public double[] getDatos(boolean releer) {
+    public double[] getDatos(boolean releer) throws IOException {
         if (releer || !leidos) {
-            try {
-                leerDatos();
-            } catch (Exception ex) {
-
-            }
+            leerDatos();
         }
         return this.datos;
     }
