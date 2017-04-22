@@ -136,17 +136,31 @@ public class DatosAgrupados extends Datos {
 
     @Override
     public ArrayList<Double> calcularModa() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+        
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public double calcularVarianza() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double varianza = 0;
+        double media = calcularMedia();
+        double sumatoria = 0;
+        
+        for ( Clase c : clases){
+            
+            sumatoria += (c.getMarca() *c.getMarca())* c.getFrecuenciaA();
+        }
+        
+        varianza = (sumatoria/this.getN())- (media*media);
+        
+        return varianza;
     }
 
     @Override
     public double calcularDeviacionE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Math.sqrt(calcularVarianza());
     }
 
     @Override
