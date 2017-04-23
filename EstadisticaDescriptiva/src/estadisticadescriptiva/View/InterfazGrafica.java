@@ -88,7 +88,7 @@ public class InterfazGrafica extends JFrame {
         separador.addActionListener(new SeparadorClick());
 
         examinar.addActionListener(new ExaminarClick());
-        cArchivo.setEnabled(false);
+        cArchivo.setEditable(false);
         panel.add(archivo);
         panel.add(examinar);
         panel.add(cArchivo);

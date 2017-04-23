@@ -149,5 +149,26 @@ public class DatosEnBruto extends Datos {
         //Sólo funciona si ya están ordenados
         return datos[n -1] - datos[0];
     }
-
+    
+    @Override
+    public String calcularSesgo(){
+        double media = this.calcularMedia();
+        double mediana = this.calcularMediana();
+        ArrayList<Double> modas = this.calcularModa();
+        double moda;
+        String sesgo;
+        if(modas.size() > 1){
+            sesgo = "Se trata de una muestra multimodal.";
+        }else{
+            moda = modas.get(0);
+            if(media < mediana && mediana < moda){
+                sesgo = "Asímétrica a la Izquierda.";
+            }else if(media > mediana && mediana > moda){
+                sesgo = "Asímétrica a la Derecha.";
+            }else{
+                sesgo = "Completamente simétrica.";
+            }
+        }
+        return sesgo;
+    }
 }

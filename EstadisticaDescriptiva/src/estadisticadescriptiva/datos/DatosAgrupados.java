@@ -165,7 +165,7 @@ public class DatosAgrupados extends Datos {
 
     @Override
     public double calcularRango() {
-        return this.limiteUS - this.limiteUS;
+        return this.limiteUS - this.limiteUI;
     }
 
     public String getTablaHtml() {

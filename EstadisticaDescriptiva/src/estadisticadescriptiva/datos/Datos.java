@@ -25,6 +25,7 @@ public abstract class Datos {
     public abstract double calcularVarianza();
     public abstract double calcularDeviacionE();
     public abstract double calcularRango();
+    public abstract String calcularSesgo();
     //-Métodos de acceso.
     
     public int getN(){

@@ -114,13 +114,20 @@ public class Controlador extends Application {
         }
         if (valido) {
             archivoDatos = new ArchivoDeDatos(archivo.getPath(), separador);
-            datos = archivoDatos.getDatos(true);
+            
+            try{
+               datos = archivoDatos.getDatos(true); 
+            }catch(Exception ex){
+                interfaz.mandarMensaje("Error no se pudo encontrar el arcivo");
+                return;
+            }
             if (datos == null || datos.length == 0) {
                 System.out.println("Separador: " + sep);
                 System.out.println(archivoDatos.getErrores());
             }
             archivo = null;
-            datosBruto = new DatosEnBruto(archivoDatos.getDatos(true));
+            datosBruto = new DatosEnBruto(datos);
+            
             datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.Sturges);
             histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados, false);
             histograma.dibujar();
