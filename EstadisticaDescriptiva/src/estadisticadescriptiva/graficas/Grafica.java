@@ -20,7 +20,8 @@ public abstract class Grafica {
     protected BufferedImage grafica; // -Es la imagen de la gráfica en sí.
     protected Color fondo;
     protected boolean dibujado;
-    protected int altura, anchura;
+    protected int altura; 
+    protected int anchura;
     // -Constructotes
     
     public Grafica(int anchura, int altura, Color fondo){
@@ -39,9 +40,6 @@ public abstract class Grafica {
     }
     
     public void guardarEnDisco(String ruta, String formato) throws IOException{
-        //if(!dibujado)
-         //   dibujar();
-        
         ImageIO.write(grafica, formato, new File(ruta));
     }
     

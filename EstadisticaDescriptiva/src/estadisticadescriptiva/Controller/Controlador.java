@@ -24,7 +24,7 @@ import javax.swing.JFileChooser;
  *
  * @author Vásquez Cortés Isidro Emmanuel.
  */
-public class Controlador extends Application {
+public class Controlador{
 
     // -Atributos
     private InterfazGrafica interfaz;
@@ -53,11 +53,6 @@ public class Controlador extends Application {
     public void iniciar() {
         interfaz.mostrar();
         interfaz.ponerSeparadoresDefecto(leyendasSeparadores);
-        try {
-
-        } catch (Exception ex) {
-
-        }
     }
 
     public void manejarExaminarClick() {
@@ -80,10 +75,8 @@ public class Controlador extends Application {
         boolean valido = true;
         int i = 0;
         String separador = null;
-        String html = "<html> <body> <h1>Reporte de los datos.</h1><br> <center>";
-        String modasS = "";
+        String html = "<html><header><meta charset = 'UTF-8'></header><body><center><h1>Reporte de los datos.</h1><br>";
         double[] datos;
-        ArrayList<Double> modas;
         ArchivoDeDatos archivoDatos;
         DatosEnBruto datosBruto;
         DatosAgrupados datosAgrupados;
@@ -118,64 +111,55 @@ public class Controlador extends Application {
             try{
                datos = archivoDatos.getDatos(true); 
             }catch(Exception ex){
-                interfaz.mandarMensaje("Error no se pudo encontrar el arcivo");
+                interfaz.mandarMensaje("Error no se pudo encontrar el archivo");
                 return;
             }
             if (datos == null || datos.length == 0) {
+                interfaz.mandarMensaje("No se encontraron datos en el formato específicado");
                 System.out.println("Separador: " + sep);
                 System.out.println(archivoDatos.getErrores());
             }
             archivo = null;
             datosBruto = new DatosEnBruto(datos);
-            
             datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.Sturges);
-            histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados, false);
+            histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados);
             histograma.dibujar();
-            modas = datosBruto.calcularModa();
-            for(int j = 0, c = modas.size(); j < c; j++){
-                modasS += modas.get(j);
-                if(j != c -1){
-                    modasS += ", ";
-                }
-            }
-             System.out.println("Media D.A.: "+datosAgrupados.calcularMedia());
-            System.out.println("Mediana D.A.: "+datosAgrupados.calcularMediana());
-            System.out.println("Moda D.A.:"+datosAgrupados.calcularModa());
-            System.out.println("Varianza D.A.: "+datosAgrupados.calcularVarianza());
-            System.out.println("Desviacion E. D.A.: "+datosAgrupados.calcularDeviacionE());
+            System.out.println("Reporte de los datos: \n Con datos sin agrupar" 
+                    + datosBruto.toString()
+                    + "\n===============================\n"
+                    + "Con datos agrupados\n" + datosAgrupados.toString());
             
-            html = "<html> <body> <h1>Reporte de los datos.</h1><br> <center>";
+            //\html = "<body><center><h1>Reporte de los datos.</h1><br> ";
+            html+= "<h3>Cálculos por datos sin agrupar.</h3>";
             html += "<p>Numero de datos: " + datosBruto.getN() + "<p>"
                     + "<p>Media: " + datosBruto.calcularMedia() + "</p>"
                     + "<p>Mediana: " + datosBruto.calcularMediana() + "</p>"
-                    + "<p>Modas: " + modas +"</p>"
+                    + "<p>Modas: " + datosBruto.calcularModa() +"</p>"
                     + "<p>Varianza: " + datosBruto.calcularVarianza()+ "</p>"
                     + "<p>Rango: " + datosBruto.calcularRango()
                     + "<p>Desviacion E.: " + datosBruto.calcularDeviacionE()+ "</p>"
+                    + "<p>Sesgo: " + datosBruto.calcularSesgo()+ "</p>";
+                    
+            html+= "<h3>Cálculos por datos agruAgrupados.</h3>";
+            html += "<p>Numero de datos: " + datosAgrupados.getN() + "<p>"
+                    + "<p>Media: " + datosAgrupados.calcularMedia() + "</p>"
+                    + "<p>Mediana: " + datosAgrupados.calcularMediana() + "</p>"
+                    + "<p>Modas: " + datosAgrupados.calcularModa() +"</p>"
+                    + "<p>Varianza: " + datosAgrupados.calcularVarianza()+ "</p>"
+                    + "<p>Rango: " + datosAgrupados.calcularRango()
+                    + "<p>Desviacion E.: " + datosAgrupados.calcularDeviacionE()+ "</p>"
+                    + "<p>Sesgo: " + datosAgrupados.calcularSesgo()+ "</p>"
                     + datosAgrupados.getTablaHtml()
                     + "<img src = 'histograma.png'/></center></body></html>";
-            
             try {
                 histograma.guardarEnDisco("histograma.png", "PNG");
-                //Desktop.getDesktop().browse(new File("histograma.png").toURI());
-                //Desktop.getDesktop().browse(new File("tabla.html").toURI());
                 w = new FileWriter(new File("reporte.html"));
                 w.write(html);
                 w.close();
                 Desktop.getDesktop().browse(new File("reporte.html").toURI());
             } catch (Exception ex) {
-
+                interfaz.mandarMensaje("Error escribiendo archivos de resultados");
             }
         }
     }
-
-    private void crearReporte(double media, double mediana, String modas, double desviacionE, double varianza) {
-
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-    }
-
 }

@@ -20,10 +20,9 @@ public class DatosAgrupados extends Datos {
     private DatosEnBruto origen;
     private double[] datos;
     private Clase[] clases;
-    private int numeroClases;
-    private double limiteUI, //Límite de unidad inferior
-            limiteUS,
-            tolerancia;// Límite de unidad superior.
+    private double limiteUI;
+    private double limiteUS;
+    private double tolerancia;
     FormulasNC formulaNC;
 
     public DatosAgrupados(DatosEnBruto datos, FormulasNC formulaNC) {
@@ -50,13 +49,15 @@ public class DatosAgrupados extends Datos {
         double amplitud, noClasesSR = 0, semiAmplitud = 0, aux = 0;
         int i, j, noClases = 0, acum = 0;
         tolerancia = DatosAgrupados.calcularTolerancia(datos[0]);
+        if (DatosAgrupados.calcularTolerancia(datos[datos.length - 1]) < tolerancia) {
+            tolerancia = DatosAgrupados.calcularTolerancia(datos[datos.length - 1]);
+        }
         limiteUI = datos[0] - tolerancia;
         limiteUS = datos[n - 1] + tolerancia;
 
         switch (formulaNC) {
             case Sturges:
                 noClases = DatosAgrupados.clasesSturges(n);
-                noClasesSR = DatosAgrupados.sturges(n);
                 break;
             case SQRT:
                 noClasesSR = Math.sqrt(n);
@@ -72,11 +73,8 @@ public class DatosAgrupados extends Datos {
             clases[i] = new Clase(aux, aux + amplitud, aux + semiAmplitud);
             aux = aux + amplitud;
         }
-        j = 0;
-        i = 0;
         //Ahora sigue determinar la frecuencia de cada clase.
         //El siguiente for solo funciona con los datos ORDENADOS DE MENOR A MAYOR.
-        System.out.println("tolerancia: " + tolerancia);
         for (Clase c : clases) {
 
             for (double valor : datos) {
@@ -148,7 +146,6 @@ public class DatosAgrupados extends Datos {
                 frecuenciaMayor = clases[i].getFrecuenciaA();
             }
         }
-        System.out.println("Frecuencia my : " + frecuenciaMayor);
         for (int i = 0, c = clases.length; i < c; i++) {
 
             if (clases[i].getFrecuenciaA() == frecuenciaMayor) {
@@ -201,23 +198,46 @@ public class DatosAgrupados extends Datos {
         return this.limiteUS - this.limiteUI;
     }
 
-    public String getTablaHtml() {
-        String tabla = "<table border = \"1px\"><tr>";
-        tabla += "<td>Inter</td>";
-        tabla += "<td>Marca</td>";
-        tabla += "<td>FA</td>";
-        tabla += "<td>FAAc</td>";
-        tabla += "<td>FR</td>";
-        tabla += "<td>FRAc</td></tr>";
-        for (int i = 0, c = clases.length; i < c; i++) {
-            tabla += "<td>" + clases[i].getLimiteInferior() + " - "
-                    + clases[i].getLimiteSuperior() + "</td>";
-            tabla += "<td>" + clases[i].getMarca() + "</td>";
-            tabla += "<td>" + clases[i].getFrecuenciaA() + "</td>";
-            tabla += "<td>" + clases[i].getFrecuenciaAAc() + "</td>";
-            tabla += "<td>" + clases[i].getFrecuenciaR() + "</td>";
-            tabla += "<td>" + clases[i].getFrecuenciaRAc() + "</td></tr>";
+    @Override
+    public String calcularSesgo() {
+        double media = this.calcularMedia();
+        double mediana = this.calcularMediana();
+        ArrayList<Double> modas = this.calcularModa();
+        double moda;
+        String sesgo;
+        if (modas.size() > 1) {
+            sesgo = "Se trata de una muestra multimodal.";
+        } else {
+            moda = modas.get(0);
+            if (media < mediana) {
+                sesgo = "Asímétrica a la Izquierda.";
+            } else if (media > mediana) {
+                sesgo = "Asímétrica a la Derecha.";
+            } else {
+                sesgo = "Completamente simétrica.";
+            }
         }
+        return sesgo;
+    }
+
+    public String getTablaHtml() {
+        String tabla = "<table border = \"1px\"><tr>"
+                + "<td>Inter</td>"
+                + "<td>Marca</td>"
+                + "<td>FA</td>"
+                + "<td>FAAc</td>"
+                + "<td>FR</td>"
+                + "<td>FRAc</td></tr>";
+        for (int i = 0, c = clases.length; i < c; i++) {
+            tabla += "<tr><td>" + clases[i].getLimiteInferior() + " - "
+                    + clases[i].getLimiteSuperior() + "</td>"
+                    + "<td>" + clases[i].getMarca() + "</td>"
+                    + "<td>" + clases[i].getFrecuenciaA() + "</td>"
+                    + "<td>" + clases[i].getFrecuenciaAAc() + "</td>"
+                    + "<td>" + clases[i].getFrecuenciaR() + "</td>"
+                    + "<td>" + clases[i].getFrecuenciaRAc() + "</td></tr>";
+        }
+        tabla += "</table>";
         return tabla;
     }
 
@@ -246,7 +266,6 @@ public class DatosAgrupados extends Datos {
         String[] partes;
         String decimal = Double.toString(valor), decimales = "";
         int exponente = 0;
-        System.out.println(decimal);
         if (decimal.contains("E")) {
             exponente = Integer.parseInt(decimal.split("E")[1]) - 1;
 
@@ -257,11 +276,6 @@ public class DatosAgrupados extends Datos {
         }
         tolerancia = 5 * Math.pow(10, exponente);
         return tolerancia;
-    }
-
-    @Override
-    public String calcularSesgo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public enum FormulasNC {

@@ -21,15 +21,15 @@ package estadisticadescriptiva.datos;
  */
 public class Clase {
     // -Atributos
-    double limiteInferior, 
-           limiteSuperior,
-           marca,
-           frecuenciaR, // -Frecuencia Relativa
-           frecuenciaRAc,//-Frecuencia Relativa acumulada.
-           amplitud; 
+    double       limiteInferior; 
+    double       limiteSuperior;
+    double       marca;
+    double       frecuenciaR;
+    double       frecuenciaRAc;
+    double       amplitud; 
     
-    int frecuenciaA, // - Frecuencia absoluta
-        frecuenciaAAc; //-Frecuencia Absoluta acumulada
+    int frecuenciaA; // - Frecuencia absoluta
+    int frecuenciaAAc; //-Frecuencia Absoluta acumulada
     public Clase(double li, double lf, double marca){
         this.limiteInferior = li;
         this.limiteSuperior = lf;

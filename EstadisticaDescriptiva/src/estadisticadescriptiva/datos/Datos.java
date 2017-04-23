@@ -49,7 +49,8 @@ public abstract class Datos {
                + "\nMediana: " + this.calcularMediana()
                + "\nModas: " + modasS
                + "\nVarianza: " + this.calcularVarianza()
-               + "\nDesviacion E.:" + this.calcularDeviacionE();
+               + "\nDesviacion E.:" + this.calcularDeviacionE()
+               + "\nSesgo:" + this.calcularSesgo();
     }
     
     //-Métodos estáticos.

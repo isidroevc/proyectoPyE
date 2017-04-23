@@ -43,11 +43,13 @@ public class TestArchivoDatos {
         Random r = new Random();
         try {
 
-            FileWriter w = new FileWriter(new File("separadorSalto.txt"));
+            FileWriter w = new FileWriter(new File("separadorComa.txt"));
             for (int i = 0; i < 150; i++) {
 
-                w.write("\n" + Math.abs(r.nextInt()) % 125 + 25);
-
+                w.write(Integer.toString((Math.abs(r.nextInt()) % 125 + 25)));
+                if(i != 149){
+                    w.write(",");
+                }
             }
             w.close();
         } catch (Exception ex) {

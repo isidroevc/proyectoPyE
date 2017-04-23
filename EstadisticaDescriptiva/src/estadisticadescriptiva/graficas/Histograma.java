@@ -25,17 +25,16 @@ public class Histograma extends Grafica {
     // -Atributos.
     private DatosAgrupados origen;
     private Clase[] clases;
-    private boolean forzar; // - Indica si deben forzarse las dimensiones dadas
-    public final static float MARGEN_X = 0.1f, 
-            MARGEN_Y = 0.15f,// 10% demargen
-            GROSOR_ESTANDAR = 2.5f; 
-    public final int ANCHO_ESTANDAR = 480, 
-            ALTO_ESTANDAR = 640,
-            MIN_ANCHO_BARRA = 2;
+    public final static float        MARGEN_X = 0.1f;
+    public final static float        MARGEN_Y = 0.15f;// 10% demargen
+    public final static float        GROSOR_ESTANDAR = 2.5f; 
+    public final static int          ANCHO_ESTANDAR = 640;
+    public final static int          ALTO_ESTANDAR = 480;
+    public final static int          MIN_ANCHO_BARRA = 2;
 
     // -Constructor
     public Histograma(int altura, int anchura, Color fondo,
-            DatosAgrupados origen, boolean forzar) {
+            DatosAgrupados origen) {
         super(altura, anchura, fondo);
         this.origen = origen;
         clases = origen.getClases();
@@ -73,7 +72,6 @@ public class Histograma extends Grafica {
             alturaBarra,
             escala,
             noEscalas,
-            anchoCaracter,
             longitudDivY,
             espacioAnterior,
             i;
@@ -97,7 +95,7 @@ public class Histograma extends Grafica {
         longitudEjeY = (altura - margenYsup - margenYinf);
         anchoBarra = (int) (longitudEjeX / nClases);
         coefPF = (double) longitudEjeY / frecuenciaMaxima;
-        grafica = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_ARGB);
+        grafica = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_RGB);
         pluma = (Graphics2D)grafica.getGraphics();
         pluma.setColor(fondo);
         
@@ -119,24 +117,23 @@ public class Histograma extends Grafica {
         
         for (Clase c : clases) {
             alturaBarra = (int) (coefPF * (double) c.getFrecuenciaA());
-            System.out.println("longitudEjeY: " + longitudEjeY);
             pluma.drawRect(i, margenYsup + (longitudEjeY - alturaBarra), anchoBarra, alturaBarra);
             i += anchoBarra;
         }
         //Trazar la escala en y.
 
         escala = longitudEjeY/12;
-        longitudDivY = 5 * (anchura/ANCHO_ESTANDAR);
+        longitudDivY = (int)(5 * (double)(anchura/ANCHO_ESTANDAR));
         
         pluma.setFont(new  Font(pluma.getFont().getName(),0, escala/3));
-        anchoCaracter = pluma.getFontMetrics().getWidths()[125];
-        //System.out.println(pluma);
         i = margenYsup;
         for(int j = 0; j <= 12; j++){
             pluma.drawLine(margenX - longitudDivY, i, margenX, i);
             cifraEscala =  (int)((12 -j) * (escala/coefPF));
-            cifraEscalaStr = Double.toString(cifraEscala);
-            pluma.drawString(cifraEscalaStr,margenX - cifraEscalaStr.length()* anchoCaracter -longitudDivY,i-3);
+            cifraEscalaStr = Integer.toString((int)cifraEscala);
+            pluma.drawString(cifraEscalaStr,
+                    margenX - pluma.getFontMetrics().stringWidth(cifraEscalaStr) -longitudDivY,
+                    i-3);
             i+=escala;
             
         }
@@ -166,21 +163,22 @@ public class Histograma extends Grafica {
         for(int j= 0; j <= noEscalas; j++){
             cifraEscala = amplitudEscala * j + datoMinimo;
             cifraEscalaStr = formato.format(cifraEscala);
-            pluma.drawLine(i,altura-(margenYinf - espacioAnterior),i,altura - (margenYinf - espacioAnterior - longitudDivY));
+            pluma.drawLine(i,
+                    altura-(margenYinf - espacioAnterior),
+                    i,
+                    altura - (margenYinf - espacioAnterior - longitudDivY));
             pluma.drawString(cifraEscalaStr,
-                    i-(cifraEscalaStr.length() * anchoCaracter)/2,
+                    i-(pluma.getFontMetrics().stringWidth(cifraEscalaStr))/2,
                     altura - (margenYinf - espacioAnterior - (j%2)* (longitudDivY+3) - 3*longitudDivY));
             i += escala;
         }
         //Colocar leyenda "Histograma"
         leyendas = "Histograma";
-        pluma.drawString(leyendas, (anchura - (leyendas.length() * anchoCaracter))/2,
+        pluma.drawString(leyendas, (anchura - (pluma.getFontMetrics().stringWidth(leyendas)))/2,
                 espacioAnterior*2);
         leyendas = "Unidades";
-        pluma.drawString(leyendas, (anchura - (leyendas.length() * anchoCaracter))/2,
+        pluma.drawString(leyendas, (anchura - (pluma.getFontMetrics().stringWidth(leyendas)))/2,
                 altura - 4*espacioAnterior);
-        pluma.rotate((double)(Math.PI/-2));
-        pluma.drawString("Sigigilo", 125,125);
     }
 
 }

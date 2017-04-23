@@ -191,13 +191,15 @@ public class InterfazGrafica extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             //Verthissi si se haya seleccionado un archivo.
+
             if (separador.isSelected()) {
-                controlador.manejarCorrerClick(true,
+              controlador.manejarCorrerClick(true,
                         (String) separadores.getSelectedItem());
                 
             }else{
                 controlador.manejarCorrerClick(false, cSeparador.getText());
             }
+            cArchivo.setText("");
         }
 
     }

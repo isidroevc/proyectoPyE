@@ -161,9 +161,9 @@ public class DatosEnBruto extends Datos {
             sesgo = "Se trata de una muestra multimodal.";
         }else{
             moda = modas.get(0);
-            if(media < mediana && mediana < moda){
+            if(media < mediana){
                 sesgo = "Asímétrica a la Izquierda.";
-            }else if(media > mediana && mediana > moda){
+            }else if(media > mediana){
                 sesgo = "Asímétrica a la Derecha.";
             }else{
                 sesgo = "Completamente simétrica.";
