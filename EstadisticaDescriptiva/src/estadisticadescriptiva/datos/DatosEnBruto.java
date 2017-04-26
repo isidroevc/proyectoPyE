@@ -147,6 +147,7 @@ public class DatosEnBruto extends Datos {
     @Override
     public double calcularRango() {
         //Sólo funciona si ya están ordenados
+        System.out.println(datos[n -1]  + " " + datos[0]);
         return datos[n -1] - datos[0];
     }
     

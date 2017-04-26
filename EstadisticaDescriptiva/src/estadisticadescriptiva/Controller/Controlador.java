@@ -116,12 +116,13 @@ public class Controlador{
             }
             if (datos == null || datos.length == 0) {
                 interfaz.mandarMensaje("No se encontraron datos en el formato específicado");
+                interfaz.colocarRuta("");
                 System.out.println("Separador: " + sep);
                 System.out.println(archivoDatos.getErrores());
             }
             archivo = null;
             datosBruto = new DatosEnBruto(datos);
-            datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.Sturges);
+            datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.SQRT);
             histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados);
             histograma.dibujar();
             System.out.println("Reporte de los datos: \n Con datos sin agrupar" 
@@ -140,7 +141,7 @@ public class Controlador{
                     + "<p>Desviacion E.: " + datosBruto.calcularDeviacionE()+ "</p>"
                     + "<p>Sesgo: " + datosBruto.calcularSesgo()+ "</p>";
                     
-            html+= "<h3>Cálculos por datos agruAgrupados.</h3>";
+            html+= "<h3>Cálculos por datos Agrupados.</h3>";
             html += "<p>Numero de datos: " + datosAgrupados.getN() + "<p>"
                     + "<p>Media: " + datosAgrupados.calcularMedia() + "</p>"
                     + "<p>Mediana: " + datosAgrupados.calcularMediana() + "</p>"

@@ -78,6 +78,9 @@ public class ArchivoDeDatos {
         flujoEntrada.read(bytesArchivo);
 
         textoArchivo = new String(bytesArchivo, codificacion);
+        if(!separador.equals("\n")){
+            textoArchivo.replaceFirst("[\n\r]", separador);
+        }
         bytesArchivo = null; //-Limpiar la memoria
         datosString = textoArchivo.split(separador);
         textoArchivo = null; //-Limpiar la memoria

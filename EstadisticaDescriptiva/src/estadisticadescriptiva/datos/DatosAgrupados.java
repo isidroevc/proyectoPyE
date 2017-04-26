@@ -195,7 +195,8 @@ public class DatosAgrupados extends Datos {
 
     @Override
     public double calcularRango() {
-        return this.limiteUS - this.limiteUI;
+        System.out.println("us: " + limiteUS + " ui: " + limiteUI);
+        return this.limiteUS - this.limiteUI - 2*tolerancia;
     }
 
     @Override

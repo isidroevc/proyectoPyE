@@ -74,6 +74,7 @@ public class Histograma extends Grafica {
             noEscalas,
             longitudDivY,
             espacioAnterior,
+            fuente,
             i;
         double coefPF,cifraEscala,amplitudEscala, datoMinimo, rango;
         Graphics2D pluma;
@@ -121,15 +122,24 @@ public class Histograma extends Grafica {
             i += anchoBarra;
         }
         //Trazar la escala en y.
-
-        escala = longitudEjeY/12;
+        noEscalas = -1;
+        for(int j = 4; j <= 12; j++){
+            if(frecuenciaMaxima % j == 0){
+                noEscalas = j;
+            }
+        }
+        if(noEscalas == -1){
+          noEscalas = 4;
+        }
+        escala = longitudEjeY/noEscalas;
         longitudDivY = (int)(5 * (double)(anchura/ANCHO_ESTANDAR));
-        
-        pluma.setFont(new  Font(pluma.getFont().getName(),0, escala/3));
+        //fuente = espacioAnterior * 4;
+        fuente = (int)(longitudDivY *2);
+        pluma.setFont(new  Font(pluma.getFont().getName(),0, fuente));
         i = margenYsup;
-        for(int j = 0; j <= 12; j++){
+        for(int j = 0; j <= noEscalas; j++){
             pluma.drawLine(margenX - longitudDivY, i, margenX, i);
-            cifraEscala =  (int)((12 -j) * (escala/coefPF));
+            cifraEscala =  Math.round((noEscalas -j) * (escala/coefPF));
             cifraEscalaStr = Integer.toString((int)cifraEscala);
             pluma.drawString(cifraEscalaStr,
                     margenX - pluma.getFontMetrics().stringWidth(cifraEscalaStr) -longitudDivY,
