@@ -122,7 +122,7 @@ public class Controlador{
             }
             archivo = null;
             datosBruto = new DatosEnBruto(datos);
-            datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.SQRT);
+            datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.Sturges);
             histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados);
             histograma.dibujar();
             System.out.println("Reporte de los datos: \n Con datos sin agrupar" 
