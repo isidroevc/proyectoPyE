@@ -18,15 +18,15 @@ public class DistribucionPoisson extends Distribucion{
     }
     
     @Override
-    public double calcularProbabilidad(double x) {
+    public double probabilidad(double x) {
         return (Math.pow(lamda, x) * Math.pow(Math.E,-lamda)) / Distribucion.factorial((int)x);
     }
 
     @Override
-    public double calcularProbabilidadAc(double x) {
+    public double probabilidadAc(double x) {
         double probabilidad = 0;
         for(int i = 0; i< x; i++){
-            probabilidad += calcularProbabilidad(i);
+            probabilidad += probabilidad(i);
         }
         return probabilidad;
     }

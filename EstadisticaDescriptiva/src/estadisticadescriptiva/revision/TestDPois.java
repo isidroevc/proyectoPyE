@@ -19,8 +19,8 @@ public class TestDPois {
      */
     public static void main(String[] args) {
         DistribucionPoisson dpois = new DistribucionPoisson(2.88);
-        System.out.println(dpois.calcularProbabilidad(4));
-        System.out.println(dpois.calcularProbabilidadAc(10));
+        System.out.println(dpois.probabilidad(4));
+        System.out.println(dpois.probabilidadAc(10));
     }
     
 }

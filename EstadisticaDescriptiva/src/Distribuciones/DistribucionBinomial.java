@@ -21,17 +21,17 @@ public class DistribucionBinomial extends Distribucion{
     }
     
     @Override
-    public double calcularProbabilidad(double x) {
+    public double probabilidad(double x) {
        return Distribucion.combinatoria(n,(int)x)
                * Math.pow(p, x) 
                * Math.pow(1-p, n-x);    
     }
 
     @Override
-    public double calcularProbabilidadAc(double x) {
+    public double probabilidadAc(double x) {
         double prob = 0;
         for(int i = 0, c = (int)x; i <= c; i++){
-            prob += calcularProbabilidad(i);
+            prob += probabilidad(i);
         }
         return prob;
     }

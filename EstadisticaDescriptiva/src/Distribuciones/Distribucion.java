@@ -10,9 +10,9 @@ public abstract class Distribucion {
     
     // -Métodos abstractos.
     
-    public abstract double calcularProbabilidad(double x);
+    public abstract double probabilidad(double x);
     
-    public abstract double calcularProbabilidadAc(double x);
+    public abstract double probabilidadAc(double x);
     
     public abstract double calcularMedia();
     

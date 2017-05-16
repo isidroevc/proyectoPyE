@@ -9,25 +9,27 @@ package Distribuciones;
  */
 public class DistribucionHipergeometrica extends Distribucion{
     // -Atributos
-    int nP, // Numero de elementos en la poblacion.
-        t, // casos de exito en la poblacion
-        n; //tamaño de la muestr
+    int nP,//Tamaño de la poblacion
+            n , //Tamaño de la muestra 
+            k; // Casos d eexito en la poblacion.
 
-    public DistribucionHipergeometrica(int nP,int t, int n) {
-        this.t = t;
-        this.n = n;
+    public DistribucionHipergeometrica(int nP, int n, int k) {
         this.nP = nP;
+        this.n = n;
+        this.k = k;
     }
     
     
     @Override
-    public double calcularProbabilidad(double x) {
-        return (Distribucion.combinatoria(nP - t, n - (int)x) * Distribucion.combinatoria(t, (int)x)) 
-                 / Distribucion.combinatoria(nP, n);
+    public double probabilidad(double x) {
+        int z = (int)x;
+        return (double)(Distribucion.combinatoria(k, z)
+                * Distribucion.combinatoria(nP - k, n - z)) 
+                / Distribucion.combinatoria(nP, n);
     }
 
     @Override
-    public double calcularProbabilidadAc(double x) {
+    public double probabilidadAc(double x) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

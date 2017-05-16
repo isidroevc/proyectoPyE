@@ -20,8 +20,8 @@ public class TestDBinom {
     public static void main(String[] args) {
         DistribucionBinomial dbinom = new DistribucionBinomial(12,0.2);
         
-        System.out.println(dbinom.calcularProbabilidad(1));
-        System.out.println(dbinom.calcularProbabilidadAc(12));
+        System.out.println(dbinom.probabilidad(1));
+        System.out.println(dbinom.probabilidadAc(12));
     }
     
 }

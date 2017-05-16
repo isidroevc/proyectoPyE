@@ -19,8 +19,8 @@ public class TestDNorm {
     public static void main(String[] args) {
         //System.out.println(1- (0.5 - DistribucionNormal.calcularProbabilidadEAc(1)));
         DistribucionNormal dnorm = new DistribucionNormal(3, 0.5);
-        System.out.println(dnorm.calcularProbabilidad(4.2));
-        System.out.println(dnorm.calcularProbabilidadAc(3.5));
+        System.out.println(dnorm.probabilidad(4.2));
+        System.out.println(dnorm.probabilidadAc(3.5));
 
  /*dnorm = new DistribucionNormal(3,0.5);
         System.out.println(1-dnorm.calcularProbabilidadAcumulativa(3.5));*/

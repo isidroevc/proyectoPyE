@@ -27,13 +27,13 @@ public class DistribucionNormal extends Distribucion{
     
     
     @Override
-    public double calcularProbabilidad(double x) {
+    public double probabilidad(double x) {
        double z = (x - media)/desviacionE;
        return calcularProbabilidadE(z);
     }
 
     @Override
-    public double calcularProbabilidadAc(double x) {
+    public double probabilidadAc(double x) {
         double z = (x - media)/desviacionE;
         return 0.5 - calcularProbabilidadEAc(z);
     }
