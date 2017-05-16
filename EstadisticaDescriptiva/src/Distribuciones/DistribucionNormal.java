@@ -6,7 +6,7 @@
  * Binomial
 Hipergeomética
 Poisson
-Normal
+Normal----
  */
 package Distribuciones;
 
