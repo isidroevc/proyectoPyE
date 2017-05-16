@@ -15,9 +15,12 @@ import Distribuciones.DistribucionHipergeometrica;
 public class TestDHiper {
 
     public static void main(String[] args) {
-        System.out.println(Distribucion.factorial(5.0));
-        DistribucionHipergeometrica dhyper = new DistribucionHipergeometrica(10, 4, 3);
-        System.out.println(dhyper.probabilidad(2));
+        System.out.println(Distribucion.factorial(240000));
+        DistribucionHipergeometrica dhyper = new DistribucionHipergeometrica(40,3,5);
+        System.out.println(dhyper.probabilidad(6));
+        System.out.println(dhyper.probabilidadAc(6));
+        System.out.println(dhyper.calcularDesviacionE());
+        System.out.println(dhyper.calcularMedia());
     }
 
 }

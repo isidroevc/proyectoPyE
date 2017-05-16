@@ -30,17 +30,33 @@ public class DistribucionHipergeometrica extends Distribucion{
 
     @Override
     public double probabilidadAc(double x) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double probabilidad = 0;
+        for(int i = 0, c = (int)x; i <= c; i++){
+            probabilidad += probabilidad(i);
+        }
+        return probabilidad;
     }
 
     @Override
     public double calcularMedia() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double nP = this.nP,
+                k = this.k,
+                n = this.n;
+        return n*k/n;
     }
 
     @Override
     public double calcularDesviacionE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Math.sqrt(calcularVarianza());
+    }
+
+    @Override
+    public double calcularVarianza() {
+        double nP = this.nP,
+                k = this.k,
+                n = this.n;
+        return ((nP -  n)/(nP - 1)) * n * (k/nP) *(1 - k/nP);
+         
     }
     
 }

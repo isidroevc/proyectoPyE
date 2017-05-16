@@ -18,8 +18,10 @@ public abstract class Distribucion {
     
     public abstract double calcularDesviacionE();
     
-    public static int factorial(int x){
-        int fact = 1;
+    public abstract double calcularVarianza();
+    
+    public static double factorial(double x){
+        double fact = 1;
         /*if(x == 0)
             fact = 1;
         else
@@ -31,12 +33,13 @@ public abstract class Distribucion {
         return fact;
     }
     
-    public static final double factorial(double x){
+    public static final double factorialSt(double x){
         return Math.sqrt(2*Math.PI*x) * Math.pow(x,x) * Math.pow(Math.E, -x);
     }
     
-    public static int combinatoria(int n, int x){
-        return Distribucion.factorial(n)/(Distribucion.factorial(x)*Distribucion.factorial(n-x));
+    public static double combinatoria(int n, int x){
+        return (double)(Distribucion.factorial(n)/(Distribucion.factorial(x)*Distribucion.factorial(n-x)));
     }
+    
     
 }

@@ -38,11 +38,16 @@ public class DistribucionBinomial extends Distribucion{
 
     @Override
     public double calcularMedia() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (double)n * p;
     }
 
     @Override
     public double calcularDesviacionE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         return Math.sqrt(calcularVarianza());
+    }
+
+    @Override
+    public double calcularVarianza() {
+        return (double)n * p * (1 - p);
     }
 }

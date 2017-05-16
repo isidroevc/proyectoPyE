@@ -40,12 +40,12 @@ public class DistribucionNormal extends Distribucion{
 
     @Override
     public double calcularMedia() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return media;
     }
 
     @Override
     public double calcularDesviacionE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return desviacionE;
     }
     
     @Override
@@ -67,5 +67,10 @@ public class DistribucionNormal extends Distribucion{
     public static double calcularProbabilidadE(double x){
         return (1/Math.sqrt(2*Math.PI)) * 
                 Math.pow(Math.E,-(x*x)/2);
+    }
+
+    @Override
+    public double calcularVarianza() {
+        return desviacionE * desviacionE;
     }
 }

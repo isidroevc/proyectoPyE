@@ -33,12 +33,17 @@ public class DistribucionPoisson extends Distribucion{
 
     @Override
     public double calcularMedia() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return lamda;
     }
 
     @Override
     public double calcularDesviacionE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         return Math.sqrt(lamda);
+    }
+
+    @Override
+    public double calcularVarianza() {
+        return lamda;
     }
     
 }
