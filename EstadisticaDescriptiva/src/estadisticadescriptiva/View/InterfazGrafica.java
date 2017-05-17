@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 
 /**
  *
@@ -38,6 +39,29 @@ public class InterfazGrafica extends JFrame {
     private JLabel fondo;
     private JLabel archivo;
     private ButtonGroup separadorGroup;
+    private JLabel tamaño;
+    private JLabel tamañoH;
+    private JLabel probabilidad;
+    private JLabel n;
+    private JLabel nH;
+    private JLabel p;
+    private JLabel N;
+    private JLabel k;
+    private JLabel confiabilidad;
+    private JLabel comparar;
+    private JLabel casos;
+    private JLabel tamañoP;
+    private JTextField cTamaño;
+    private JTextField cProbabilidad;
+    private JTextField cTamañoP;
+    private JTextField cCasos;
+    private JTextField cTamañoH;
+    private JTextField cConfiabilidad;
+    private JCheckBox normal;
+    private JCheckBox binomial;
+    private JCheckBox poisson;
+    private JCheckBox hipergeometrica;
+    
 
     private Controlador controlador;
     private FileChooser dialogoArchivo;
@@ -69,11 +93,36 @@ public class InterfazGrafica extends JFrame {
         archivo = new JLabel("Archivo");
         separadorGroup = new ButtonGroup();
         dialogoArchivo = new FileChooser();
+        comparar = new JLabel ("Comparar datos de la muesta con:");
+        normal = new JCheckBox("Normal");
+        poisson = new JCheckBox("Poisson");
+        binomial = new JCheckBox("Binomial");
+        n = new JLabel("n");
+        p = new JLabel("p");
+        N = new JLabel("N");
+        k = new JLabel("k");
+        nH = new JLabel("n");
+        confiabilidad = new JLabel("Porcentaje de Confiabilidad");
+        cTamaño = new JTextField();
+        cProbabilidad = new JTextField();
+        cTamañoP = new JTextField();
+        cTamañoH = new JTextField();
+        cCasos = new JTextField();
+        cConfiabilidad = new JTextField();
+        hipergeometrica = new JCheckBox("Hipergeométrica");
+        tamaño = new JLabel("Numero de eventos o tamaño de la muestra");
+        tamañoH = new JLabel("Tamaño de la muesta");
+        probabilidad = new JLabel("Probabilidad de éxito");
+        casos = new JLabel("Casos de éxito en la poblacion");
+        tamañoP = new JLabel("Tamaño de la poblacion");
+        
+        
     }
 
     private void ensamblar() {
         this.setTitle("Estadistica Descriptiva");
-        this.setSize(600, 500);
+        this.setSize(600, 800);
+        
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.getContentPane().add(panel);
@@ -96,6 +145,29 @@ public class InterfazGrafica extends JFrame {
         panel.add(separadores);
         panel.add(otrossep);
         panel.add(cSeparador);
+        panel.add(comparar);
+        panel.add(normal);
+        panel.add(binomial);
+        panel.add(poisson);
+        panel.add(n);
+        panel.add(cTamaño);
+        panel.add(tamaño);
+        panel.add(p);
+        panel.add(cProbabilidad);
+        panel.add(probabilidad);
+        panel.add(hipergeometrica);
+        panel.add(N);
+        panel.add(cTamañoP);
+        panel.add(tamañoP);
+        panel.add(k);
+        panel.add(cCasos);
+        panel.add(casos);
+        panel.add(nH);
+        panel.add(cTamañoH);
+        panel.add(tamañoH);
+        panel.add(confiabilidad);
+        panel.add(cConfiabilidad);
+        
         panel.add(correr);
         panel.add(fondo);
 
@@ -113,15 +185,61 @@ public class InterfazGrafica extends JFrame {
 
         cArchivo.setBounds(20, 123, 400, 30);
 
-        separador.setBounds(20, 173, 100, 30);
+        separador.setBounds(20, 163, 100, 30);
 
-        separadores.setBounds(20, 213, 200, 30);
+        separadores.setBounds(20, 203, 200, 30);
 
-        otrossep.setBounds(20, 300, 200, 30);
-
-        cSeparador.setBounds(230, 300, 300, 30);
+        otrossep.setBounds(20, 253, 200, 30);
+        
+        cSeparador.setBounds(230, 253, 300, 30);
         cSeparador.setEnabled(false);
-        correr.setBounds(430, 400, 100, 30);
+        
+        comparar.setBounds(20, 293, 200, 30);
+        
+        normal.setBounds(20, 333, 200, 30);
+        
+        poisson.setBounds(20, 373, 200, 30);
+        
+        binomial.setBounds(20, 413, 200, 30);
+        
+        n.setBounds(40, 453, 20, 30);
+        
+        cTamaño.setBounds(70, 453, 150, 30);
+        
+        tamaño.setBounds(230, 453, 300, 30);
+        
+        p.setBounds(40, 493, 20, 30);
+        
+        cProbabilidad.setBounds(70, 493, 150, 30);
+        
+        probabilidad.setBounds(230, 493, 300, 30);
+        
+        hipergeometrica.setBounds(20, 533, 200, 30);
+        
+        N.setBounds(40, 573, 20, 30);
+        
+        cTamañoP.setBounds(70, 573, 150, 30);
+        
+        tamañoP.setBounds(230, 573, 300, 30);
+        
+        k.setBounds(40, 613, 20, 30);
+        
+        cCasos.setBounds(70, 613, 150, 30);
+        
+        casos.setBounds(230, 613, 300, 30);
+        
+        nH.setBounds(40, 653, 20, 30);
+        
+        cTamañoH.setBounds(70, 653, 150, 30);
+        
+        tamañoH.setBounds(230, 653, 300, 30);
+        
+        confiabilidad.setBounds(20, 693, 200, 30);
+        
+        cConfiabilidad.setBounds(230, 693, 150, 30);
+        
+        
+        correr.setBounds(430, 720, 100, 30);
         correr.addActionListener(new CorrerClick());
     }
 
