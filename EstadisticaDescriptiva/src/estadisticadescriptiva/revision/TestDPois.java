@@ -18,9 +18,11 @@ public class TestDPois {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         DistribucionPoisson dpois = new DistribucionPoisson(2.88);
-        System.out.println(dpois.probabilidad(4));
-        System.out.println(dpois.probabilidadAc(10));
+        System.out.println(dpois.probabilidadAc(4));
+        System.out.println(Distribucion.factorialSt(0));
+        
     }
     
 }

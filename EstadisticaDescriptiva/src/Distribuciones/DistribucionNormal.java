@@ -49,6 +49,11 @@ public class DistribucionNormal extends Distribucion{
     }
     
     @Override
+    public double calcularVarianza() {
+        return desviacionE * desviacionE;
+    } 
+    
+    @Override
     public String toString(){
         return "Media:  " + media 
                 + "DesviacionE: " + desviacionE;
@@ -69,8 +74,5 @@ public class DistribucionNormal extends Distribucion{
                 Math.pow(Math.E,-(x*x)/2);
     }
 
-    @Override
-    public double calcularVarianza() {
-        return desviacionE * desviacionE;
-    }
+    
 }
