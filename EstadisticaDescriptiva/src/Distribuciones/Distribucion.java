@@ -7,7 +7,11 @@ package Distribuciones;
 
 public abstract class Distribucion {
     // -Atributos
-    
+    protected Tipos tipo;
+
+    public Tipos getTipo() {
+        return tipo;
+    }
     // -Métodos abstractos.
     
     public abstract double probabilidad(double x);
@@ -41,5 +45,9 @@ public abstract class Distribucion {
         return (double)(Distribucion.factorial(n)/(Distribucion.factorial(x)*Distribucion.factorial(n-x)));
     }
     
+    public enum Tipos{
+        Discreta,
+        Continua
+    }
     
 }

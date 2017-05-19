@@ -17,6 +17,7 @@ public class DistribucionHipergeometrica extends Distribucion{
         this.nP = nP;
         this.n = n;
         this.k = k;
+        this.tipo = Tipos.Discreta;
     }
     
     
@@ -56,7 +57,6 @@ public class DistribucionHipergeometrica extends Distribucion{
                 k = this.k,
                 n = this.n;
         return ((nP -  n)/(nP - 1)) * n * (k/nP) *(1 - k/nP);
-         
     }
     
 }
