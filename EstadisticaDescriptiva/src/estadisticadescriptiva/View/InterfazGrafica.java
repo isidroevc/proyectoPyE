@@ -7,6 +7,8 @@ package estadisticadescriptiva.View;
 
 import estadisticadescriptiva.Controller.Controlador;
 import estadisticadescriptiva.EstadisticaDescriptiva;
+import static java.awt.Color.BLACK;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javafx.stage.FileChooser;
@@ -40,6 +42,7 @@ public class InterfazGrafica extends JFrame {
     private JLabel archivo;
     private ButtonGroup separadorGroup;
     private JLabel tamaño;
+    private JLabel tamaño2;
     private JLabel tamañoH;
     private JLabel probabilidad;
     private JLabel n;
@@ -48,6 +51,7 @@ public class InterfazGrafica extends JFrame {
     private JLabel N;
     private JLabel k;
     private JLabel confiabilidad;
+    private JLabel confiabilidad1;
     private JLabel comparar;
     private JLabel casos;
     private JLabel tamañoP;
@@ -90,27 +94,29 @@ public class InterfazGrafica extends JFrame {
         otrossep = new JRadioButton("Otro Seprador:");
         separadores = new JComboBox();
         fondo = new JLabel();
-        archivo = new JLabel("Archivo");
+        archivo = new JLabel("Archivo:");
         separadorGroup = new ButtonGroup();
         dialogoArchivo = new FileChooser();
         comparar = new JLabel ("Comparar datos de la muesta con:");
         normal = new JCheckBox("Normal");
         poisson = new JCheckBox("Poisson");
-        binomial = new JCheckBox("Binomial");
+        binomial = new JCheckBox("Binomial:");
         n = new JLabel("n");
         p = new JLabel("p");
         N = new JLabel("N");
         k = new JLabel("k");
         nH = new JLabel("n");
-        confiabilidad = new JLabel("Porcentaje de Confiabilidad");
+        confiabilidad = new JLabel("Porcentaje de Confiabilidad:");
+        confiabilidad1 = new JLabel("%");
         cTamaño = new JTextField();
         cProbabilidad = new JTextField();
         cTamañoP = new JTextField();
         cTamañoH = new JTextField();
         cCasos = new JTextField();
         cConfiabilidad = new JTextField();
-        hipergeometrica = new JCheckBox("Hipergeométrica");
-        tamaño = new JLabel("Numero de eventos o tamaño de la muestra");
+        hipergeometrica = new JCheckBox("Hipergeométrica:");
+        tamaño = new JLabel("Numero de eventos o");        
+        tamaño2 = new JLabel("tamaño de la muestra");        
         tamañoH = new JLabel("Tamaño de la muesta");
         probabilidad = new JLabel("Probabilidad de éxito");
         casos = new JLabel("Casos de éxito en la poblacion");
@@ -121,7 +127,7 @@ public class InterfazGrafica extends JFrame {
 
     private void ensamblar() {
         this.setTitle("Estadistica Descriptiva");
-        this.setSize(600, 800);
+        this.setSize(800, 700);
         
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -152,6 +158,7 @@ public class InterfazGrafica extends JFrame {
         panel.add(n);
         panel.add(cTamaño);
         panel.add(tamaño);
+        panel.add(tamaño2);
         panel.add(p);
         panel.add(cProbabilidad);
         panel.add(probabilidad);
@@ -166,6 +173,7 @@ public class InterfazGrafica extends JFrame {
         panel.add(cTamañoH);
         panel.add(tamañoH);
         panel.add(confiabilidad);
+        panel.add(confiabilidad1);
         panel.add(cConfiabilidad);
         
         panel.add(correr);
@@ -176,70 +184,87 @@ public class InterfazGrafica extends JFrame {
         separadorGroup.add(otrossep);
 
         fondo.setIcon(new ImageIcon("src/estadisticadescriptiva/View/banner2016.png"));
-        fondo.setBounds(0, 0, 600, 73);
+        fondo.setBounds(0, 0, 800, 97);
         fondo.setFocusable(false);
 
-        archivo.setBounds(20, 83, 120, 30);
+        archivo.setBounds(90, 137, 90, 30);
+        archivo.setFont(new Font("Arial", Font.BOLD, 16));
 
-        examinar.setBounds(430, 123, 100, 30);
+        examinar.setBounds(180, 137, 100, 30);
 
-        cArchivo.setBounds(20, 123, 400, 30);
+        cArchivo.setBounds(290, 137, 400, 30);
 
-        separador.setBounds(20, 163, 100, 30);
+        separador.setBounds(100, 197, 100, 30);
+        separador.setFont(new Font("Arial", Font.BOLD, 14));
 
-        separadores.setBounds(20, 203, 200, 30);
+        separadores.setBounds(100, 227, 200, 30);
 
-        otrossep.setBounds(20, 253, 200, 30);
+        otrossep.setBounds(400, 197, 200, 30);
+        otrossep.setFont(new Font("Arial", Font.BOLD, 14));
         
-        cSeparador.setBounds(230, 253, 300, 30);
+        cSeparador.setBounds(400, 227, 300, 30);
         cSeparador.setEnabled(false);
         
-        comparar.setBounds(20, 293, 200, 30);
+        comparar.setBounds(20, 293, 400, 30);
+        comparar.setFont(new Font("Arial", Font.BOLD, 16));
         
         normal.setBounds(20, 333, 200, 30);
+        normal.setFont(new Font("Arial", Font.BOLD, 14));
         
-        poisson.setBounds(20, 373, 200, 30);
+        poisson.setBounds(400, 333, 200, 30);
+        poisson.setFont(new Font("Arial", Font.BOLD, 14));
         
-        binomial.setBounds(20, 413, 200, 30);
+        binomial.setBounds(20, 383, 200, 30);
+        binomial.setFont(new Font("Arial", Font.BOLD, 14));
         
-        n.setBounds(40, 453, 20, 30);
+        n.setBounds(40, 423, 20, 30);
+        n.setFont(new Font("Arial", Font.BOLD, 16));
         
-        cTamaño.setBounds(70, 453, 150, 30);
+        cTamaño.setBounds(70, 423, 150, 30);
         
-        tamaño.setBounds(230, 453, 300, 30);
+        tamaño.setBounds(230, 423, 300, 15);
+        tamaño2.setBounds(230, 438, 300, 15);
         
-        p.setBounds(40, 493, 20, 30);
+        p.setBounds(40, 463, 20, 30);
+        p.setFont(new Font("Arial", Font.BOLD, 16));
         
-        cProbabilidad.setBounds(70, 493, 150, 30);
+        cProbabilidad.setBounds(70, 463, 150, 30);
         
-        probabilidad.setBounds(230, 493, 300, 30);
+        probabilidad.setBounds(230, 463, 300, 30);
         
-        hipergeometrica.setBounds(20, 533, 200, 30);
+        hipergeometrica.setBounds(400, 383, 200, 30);
+        hipergeometrica.setFont(new Font("Arial", Font.BOLD, 14));
         
-        N.setBounds(40, 573, 20, 30);
+        N.setBounds(420, 423, 20, 30);
+        N.setFont(new Font("Arial", Font.BOLD, 16));
         
-        cTamañoP.setBounds(70, 573, 150, 30);
+        cTamañoP.setBounds(450, 423, 150, 30);
         
-        tamañoP.setBounds(230, 573, 300, 30);
+        tamañoP.setBounds(610, 423, 300, 30);
         
-        k.setBounds(40, 613, 20, 30);
+        k.setBounds(420, 463, 20, 30);
+        k.setFont(new Font("Arial", Font.BOLD, 16));
         
-        cCasos.setBounds(70, 613, 150, 30);
+        cCasos.setBounds(450, 463, 150, 30);
         
-        casos.setBounds(230, 613, 300, 30);
+        casos.setBounds(610, 463, 300, 30);
         
-        nH.setBounds(40, 653, 20, 30);
+        nH.setBounds(420, 503, 20, 30);
+        nH.setFont(new Font("Arial", Font.BOLD, 16));
         
-        cTamañoH.setBounds(70, 653, 150, 30);
+        cTamañoH.setBounds(450, 503, 150, 30);
         
-        tamañoH.setBounds(230, 653, 300, 30);
+        tamañoH.setBounds(610, 503, 300, 30);
         
-        confiabilidad.setBounds(20, 693, 200, 30);
+        confiabilidad.setBounds(20, 566, 300, 30);
+        confiabilidad1.setBounds(410, 566, 300, 30);
+        confiabilidad.setFont(new Font("Arial", Font.BOLD, 16));
+        confiabilidad1.setFont(new Font("Arial", Font.BOLD, 16));
         
-        cConfiabilidad.setBounds(230, 693, 150, 30);
+        cConfiabilidad.setBounds(250, 566, 150, 30);
         
         
-        correr.setBounds(430, 720, 100, 30);
+        correr.setBounds(600, 600, 100, 30);
         correr.addActionListener(new CorrerClick());
     }
 
