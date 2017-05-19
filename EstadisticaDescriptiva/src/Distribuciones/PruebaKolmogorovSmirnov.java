@@ -54,7 +54,7 @@ public class PruebaKolmogorovSmirnov {
         valoresDistintos = new ArrayList<>();
         frecuencias = new ArrayList<>();
         double valorActual;
-        int frecuenciaActual;
+        int frecuenciaActual, frecuenciaAc;
        //Calcular la desviacion maxima esperada 
         desviacionCritica = desviacionCritica(n,significancia);
         //primero hay que agrupar los datos por sus valores iguales
@@ -85,13 +85,19 @@ public class PruebaKolmogorovSmirnov {
         
         desviacionMaxima = Double.MIN_VALUE;
         
+        frecuenciaAc = 0;
+        
         for(int i =0,c = frecuenciasRO.length; i < c; i++){
-            frecuenciasRO[i] = frecuencias.get(i)/n;
-            frecuenciasRE[i] = dist.probabilidad(valoresDistintos.get(i));
+            frecuenciaAc += frecuencias.get(i);
+            frecuenciasRO[i] = (double)frecuenciaAc/n;
+            frecuenciasRE[i] = dist.probabilidadAc(valoresDistintos.get(i));
+            System.out.println(frecuenciasRE[i] + " - " +  frecuenciasRO[i]);
             desviacionesA[i] = Math.abs(frecuenciasRO[i] - frecuenciasRE[i]);
+            //System.out.println(desviacionesA[i]);
             if(desviacionesA[i] > desviacionMaxima){
                 desviacionMaxima = desviacionesA[i];
             }
+            
         }
         System.out.println("DM: "  + desviacionMaxima + " DC: " + desviacionCritica);
         return desviacionMaxima < desviacionCritica;

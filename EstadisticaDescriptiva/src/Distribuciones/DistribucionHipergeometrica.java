@@ -11,7 +11,7 @@ public class DistribucionHipergeometrica extends Distribucion{
     // -Atributos
     int nP,//Tamaño de la poblacion
             n , //Tamaño de la muestra 
-            k; // Casos d eexito en la poblacion.
+            k; // Casos de exito en la poblacion.
 
     public DistribucionHipergeometrica(int nP, int n, int k) {
         this.nP = nP;

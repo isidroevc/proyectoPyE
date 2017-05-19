@@ -18,7 +18,7 @@ public class DistribucionNormal extends Distribucion{
     // -Atributos
     private double media; 
     private double desviacionE;
-    private static final double DX = 0.0001;
+    private static final double DX = 0.00001;
     public DistribucionNormal(double media, double desviacionE) {
         this.media = media;
         this.desviacionE = desviacionE;
@@ -35,7 +35,7 @@ public class DistribucionNormal extends Distribucion{
     @Override
     public double probabilidadAc(double x) {
         double z = (x - media)/desviacionE;
-        return 0.5 - calcularProbabilidadEAc(z);
+        return calcularProbabilidadEAc(z);
     }
 
     @Override
@@ -55,10 +55,10 @@ public class DistribucionNormal extends Distribucion{
     }
     
     public static double calcularProbabilidadEAc(double z){
-        z = Math.abs(z);
         //retorna la intragral de 0 a z
-        double x = 0, probabilidad = 0;
-        for(x = 0; x <= z; x += DX){
+        
+        double x, probabilidad = 0;
+        for(x = -3.6; x <= z; x += DX){
             probabilidad += calcularProbabilidadE(x) * DX;
         }
         return probabilidad;
