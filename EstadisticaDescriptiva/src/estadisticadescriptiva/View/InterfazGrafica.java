@@ -264,7 +264,11 @@ public class InterfazGrafica extends JFrame {
         cConfiabilidad.setBounds(250, 566, 150, 30);
         
         
+<<<<<<< HEAD
         correr.setBounds(600, 600, 100, 30);
+=======
+        correr.setBounds(430, 100, 100, 30);
+>>>>>>> 2acffd65160fa97326381908275665cf6bfb4f8c
         correr.addActionListener(new CorrerClick());
     }
 
