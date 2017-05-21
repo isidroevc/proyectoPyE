@@ -89,7 +89,11 @@ public class DatosAgrupados extends Datos {
         }
 
     }
-
+    
+    public double[] getDatos(){
+        return this.datos;
+    }
+    
     @Override
     public double calcularMedia() {
         double media;

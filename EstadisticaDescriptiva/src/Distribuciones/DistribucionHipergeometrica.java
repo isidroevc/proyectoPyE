@@ -43,7 +43,7 @@ public class DistribucionHipergeometrica extends Distribucion{
         double nP = this.nP,
                 k = this.k,
                 n = this.n;
-        return n*k/n;
+        return n*k/nP;
     }
 
     @Override

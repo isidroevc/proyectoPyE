@@ -7,10 +7,6 @@ package estadisticadescriptiva.graficas;
 
 import Distribuciones.Distribucion;
 import Distribuciones.DistribucionNormal;
-import static estadisticadescriptiva.graficas.Histograma.ANCHO_ESTANDAR;
-import static estadisticadescriptiva.graficas.Histograma.GROSOR_ESTANDAR;
-import static estadisticadescriptiva.graficas.Histograma.MARGEN_X;
-import static estadisticadescriptiva.graficas.Histograma.MARGEN_Y;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -56,7 +52,7 @@ public class CurvaDeDistribucion extends Grafica {
                 x2,
                 y2;
         Graphics2D pluma;
-        double proporcionX, proporcionY;
+        double proporcionX, proporcionY, min2;
         //Inicializar todos la imagen
         grafica = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_RGB);
         pluma = (Graphics2D) grafica.getGraphics();
@@ -70,22 +66,24 @@ public class CurvaDeDistribucion extends Grafica {
         pluma.setColor(Color.BLACK);
 
         //Trazar los ejes.
-        pluma.drawLine(origenX, origenY, longitudEjeX, origenY);
+        pluma.drawLine(origenX, origenY, longitudEjeX + origenX, origenY);
         //eje Y
         pluma.drawLine(origenX, origenY, origenX, margenYsup);
 
         //Graficar la curva.
-        proporcionX = longitudEjeX / (double) (max - min);
-        proporcionY = longitudEjeY / (double) obtenerProbabilidadMaxima();
 
+        proporcionX = (double)longitudEjeX / (double) (max - min);
+        proporcionY = longitudEjeY / (double) obtenerProbabilidadMaxima();
         pluma.setStroke(new BasicStroke(1.6f));
         pluma.setColor(Color.RED);
         x1 = origenX;
-        while (x1 < longitudEjeX) {
+        System.out.println("x1: " + x1);
+        while (x1 < longitudEjeX + origenX) {
             //obtener coordenada Y del punto a graficar.
-            y1 = (int) (normalAprox.probabilidad((double) x1 / proporcionX + min)*proporcionY) + margenYsup + (longitudEjeY - margenYinf);
+            y1 = margenYsup + longitudEjeY - (int)((double)(normalAprox.probabilidad((x1-origenX)/proporcionX + min)*proporcionY));
+            System.out.println(normalAprox.probabilidad((x1 - origenX)/proporcionX));
             x2 = x1 + 1;
-            y2 = (int) (normalAprox.probabilidad((double) x2 / proporcionY + min)*proporcionY) + margenYsup + (longitudEjeY - margenYinf);
+            y2 = margenYsup + longitudEjeY - (int) ((double)(normalAprox.probabilidad((x2-origenX)/proporcionX + min)*proporcionY));
             //ahora sigue dibujar la linea.
             pluma.drawLine(x1, y1, x2, y2);
             //graficar un punto
@@ -94,7 +92,8 @@ public class CurvaDeDistribucion extends Grafica {
             x1++;
         }
     }
-
+    
+    
     private double obtenerProbabilidadMaxima() {
         double pMax = Double.MIN_VALUE,
                 aux;
