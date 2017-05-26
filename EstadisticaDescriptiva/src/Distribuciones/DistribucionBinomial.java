@@ -18,6 +18,7 @@ public class DistribucionBinomial extends Distribucion{
     public DistribucionBinomial(int n, double p) {
         this.p = p;
         this.n = n;
+        this.nombre= "Binomial";
     }
     
     @Override

@@ -22,6 +22,7 @@ public class DistribucionNormal extends Distribucion{
     public DistribucionNormal(double media, double desviacionE) {
         this.media = media;
         this.desviacionE = desviacionE;
+        this.nombre = "Normal";
     }
     
     

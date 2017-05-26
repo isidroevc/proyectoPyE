@@ -8,9 +8,13 @@ package Distribuciones;
 public abstract class Distribucion {
     // -Atributos
     protected Tipos tipo;
-
+    protected String nombre;
     public Tipos getTipo() {
         return tipo;
+    }
+    
+    public String getNombre(){
+        return nombre;
     }
     // -Métodos abstractos.
     

@@ -91,7 +91,6 @@ public class PruebaKolmogorovSmirnov {
             frecuenciaAc += frecuencias.get(i);
             frecuenciasRO[i] = (double)frecuenciaAc/n;
             frecuenciasRE[i] = dist.probabilidadAc(valoresDistintos.get(i));
-            System.out.println(frecuenciasRE[i] + " - " +  frecuenciasRO[i]);
             desviacionesA[i] = Math.abs(frecuenciasRO[i] - frecuenciasRE[i]);
             //System.out.println(desviacionesA[i]);
             if(desviacionesA[i] > desviacionMaxima){
@@ -211,4 +210,26 @@ public class PruebaKolmogorovSmirnov {
         return (double)(numerador / (double)Math.sqrt(n));
     }
     
+    
+    public String getDetalles(){
+        String detalles = "<table border = '1px'><tr><td>Dato</td>"
+                + "<td>Frecuencia</td>"
+                + "<td>FRA Observada</td>"
+                + "<td>FRA Esperada</td>"
+                + "<td>Desviacion Absouluta</td></tr>";
+        boolean cumple = desviacionMaxima < desviacionCritica;
+        for(int i = 0, c = valoresDistintos.size(); i < c; i++){
+            detalles += "<tr" + ((desviacionesA[i] == desviacionMaxima)? " bgcolor = '#FF0000'":"") + ">";
+            detalles+= "<td>" + valoresDistintos.get(i) + "</td>"
+                    +  "<td>" + frecuencias.get(i) + "</td>"
+                    +  "<td>" + frecuenciasRO[i] + "</td>"
+                    +  "<td>" + frecuenciasRE[i] + "</td>"
+                    +  "<td>" + desviacionesA[i] + "</td></tr>";
+        }
+        detalles+= "</table><br>";
+        detalles+= "Los datos " + ((!cumple)? "NO " : " ") + " siguen una distribucion " + dist.getNombre()
+                + " con una desviacion maxima de " + desviacionMaxima + ((cumple)? " menor " : " mayor ")
+                + " a la critica " + desviacionCritica;
+        return detalles;
+    }
 }

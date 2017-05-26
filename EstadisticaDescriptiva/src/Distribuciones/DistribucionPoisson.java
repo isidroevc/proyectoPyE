@@ -15,6 +15,7 @@ public class DistribucionPoisson extends Distribucion{
 
     public DistribucionPoisson(double lamda) {
         this.lamda = lamda;
+        this.nombre = "Poisson";
     }
     
     @Override

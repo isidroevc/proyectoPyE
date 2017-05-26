@@ -18,6 +18,7 @@ public class DistribucionHipergeometrica extends Distribucion{
         this.n = n;
         this.k = k;
         this.tipo = Tipos.Discreta;
+        this.nombre = "Hipergeomegrica";
     }
     
     
