@@ -7,10 +7,17 @@ package estadisticadescriptiva.graficas;
 
 import Distribuciones.Distribucion;
 import Distribuciones.DistribucionNormal;
+import estadisticadescriptiva.datos.Clase;
+import static estadisticadescriptiva.graficas.Histograma.ANCHO_ESTANDAR;
+import static estadisticadescriptiva.graficas.Histograma.GROSOR_ESTANDAR;
+import static estadisticadescriptiva.graficas.Histograma.MARGEN_X;
+import static estadisticadescriptiva.graficas.Histograma.MARGEN_Y;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 
 public class CurvaDeDistribucion extends Grafica {
 
@@ -36,54 +43,127 @@ public class CurvaDeDistribucion extends Grafica {
         }
     }
 
-    
-
     @Override
     public void dibujar() {
-        int origenX = (int) (anchura * MARGEN_X),
-                origenY = (int) (altura * (1 - MARGEN_Y)),
-                margenX = (int) (anchura * MARGEN_X),
-                margenYinf = (int) (altura * MARGEN_Y),
-                margenYsup = (int) (altura * 0.5 * MARGEN_Y),
-                longitudEjeY = (altura - margenYsup - margenYinf),
-                longitudEjeX = anchura - 2 * margenX,
+        int margenX,
+                margenYinf,
+                margenYsup,
+                nClases,
+                anchoBarra,
+                longitudEjeX,
+                longitudGuia,
+                longitudEjeY,
+                alturaBarra,
+                escala,
+                noEscalas,
+                longitudDivY,
+                espacioAnterior,
+                fuente,
+                i,
                 x1,
-                y1,
                 x2,
-                y2;
+                y1,
+                y2,
+                origenX;
+        double coefPF, proporcionX,
+                cifraEscala,
+                amplitudEscala,
+                datoMinimo,
+                rango = max - min,
+                probabilidadMaxima = obtenerProbabilidadMaxima(dist, normalAprox, min, max);
+        normalAprox = dist;
+        System.out.println("max prob: " + probabilidadMaxima);
+        if (dist.getTipo() != Distribucion.Tipos.Continua) {
+            normalAprox = new DistribucionNormal(dist.calcularMedia(), dist.calcularDesviacionE());
+        }
         Graphics2D pluma;
-        double proporcionX, proporcionY, min2;
-        //Inicializar todos la imagen
+        DecimalFormat formato = new DecimalFormat("#.####");
+        String cifraEscalaStr, leyendas;
+        margenX = (int) (anchura * MARGEN_X);
+        margenYinf = (int) (altura * MARGEN_Y);
+        margenYsup = (int) (altura * 0.5 * MARGEN_Y);
+        longitudEjeX = anchura - 2 * margenX;
+        longitudEjeY = (altura - margenYsup - margenYinf);
+        coefPF = (double) longitudEjeY / probabilidadMaxima;
         grafica = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_RGB);
         pluma = (Graphics2D) grafica.getGraphics();
         pluma.setColor(fondo);
 
-        //Pintar fondo.
-        pluma.fillRect(0, 0, anchura, altura);
-
         pluma.setStroke(new BasicStroke(GROSOR_ESTANDAR * (anchura / ANCHO_ESTANDAR)));
+        espacioAnterior = (int) (2 * GROSOR_ESTANDAR * (anchura / ANCHO_ESTANDAR));
 
+        //Pintar fondo
+        pluma.fillRect(0, 0, anchura, altura);
         pluma.setColor(Color.BLACK);
-
         //Trazar los ejes.
-        pluma.drawLine(origenX, origenY, longitudEjeX + origenX, origenY);
-        //eje Y
-        pluma.drawLine(origenX, origenY, origenX, margenYsup);
+        //Eje X
+        pluma.drawLine(margenX, altura - margenYinf, longitudEjeX + margenX, altura - margenYinf);
+        // Eje Y
+        pluma.drawLine(margenX, altura - margenYinf, margenX, margenYsup);
 
-        //Graficar la curva.
+        //Trazar la escala en y.
+        noEscalas = 8;
+        escala = longitudEjeY / noEscalas;
+        longitudDivY = (int) (5 * (double) (anchura / ANCHO_ESTANDAR));
+        //fuente = espacioAnterior * 4;
+        fuente = (int) (longitudDivY * 2);
+        pluma.setFont(new Font(pluma.getFont().getName(), 0, fuente));
+        i = margenYsup;
+        for (int j = 0; j <= noEscalas; j++) {
+            pluma.drawLine(margenX - longitudDivY, i, margenX, i);
+            cifraEscala = (double) (noEscalas - j) * (escala / coefPF);
+            cifraEscalaStr = formato.format(cifraEscala);
+            pluma.drawString(cifraEscalaStr,
+                    margenX - pluma.getFontMetrics().stringWidth(cifraEscalaStr) - longitudDivY,
+                    i - 3);
+            i += escala;
 
-        proporcionX = (double)longitudEjeX / (double) (max - min);
-        proporcionY = longitudEjeY / (double) obtenerProbabilidadMaxima();
-        pluma.setStroke(new BasicStroke(1.6f));
+        }
+        noEscalas = 8;
+        //trazar escala en X
+
+        longitudGuia = longitudEjeX;
+        escala = longitudGuia / noEscalas;
+        pluma.drawLine(margenX + espacioAnterior,
+                altura - (margenYinf - espacioAnterior),
+                longitudGuia + margenX + espacioAnterior,
+                altura - (margenYinf - espacioAnterior));
+
+        amplitudEscala = rango / noEscalas;
+        i = margenX + espacioAnterior;
+        datoMinimo = min;
+        for (int j = 0; j <= noEscalas; j++) {
+            cifraEscala = amplitudEscala * j + datoMinimo;
+            cifraEscalaStr = formato.format(cifraEscala);
+            pluma.drawLine(i,
+                    altura - (margenYinf - espacioAnterior),
+                    i,
+                    altura - (margenYinf - espacioAnterior - longitudDivY));
+            pluma.drawString(cifraEscalaStr,
+                    i - (pluma.getFontMetrics().stringWidth(cifraEscalaStr)) / 2,
+                    altura - (margenYinf - espacioAnterior - (j % 2) * (longitudDivY + 3) - 3 * longitudDivY));
+            i += escala;
+        }
+
+        //Colocar leyenda "Histograma"
+        leyendas = "Histograma";
+        pluma.drawString(leyendas, (anchura - (pluma.getFontMetrics().stringWidth(leyendas))) / 2,
+                espacioAnterior * 2);
+        leyendas = "Unidades";
+        pluma.drawString(leyendas, (anchura - (pluma.getFontMetrics().stringWidth(leyendas))) / 2,
+                altura - 4 * espacioAnterior);
+
+        origenX = margenX + espacioAnterior;
         pluma.setColor(Color.RED);
-        x1 = origenX;
-        System.out.println("x1: " + x1);
+        coefPF = (double) longitudEjeY / (probabilidadMaxima);
+        proporcionX = longitudEjeX / (max - min);
+        x1 = margenX + espacioAnterior;
         while (x1 < longitudEjeX + origenX) {
             //obtener coordenada Y del punto a graficar.
-            y1 = margenYsup + longitudEjeY - (int)((double)(normalAprox.probabilidad((x1-origenX)/proporcionX + min)*proporcionY));
-            System.out.println(normalAprox.probabilidad((x1 - origenX)/proporcionX));
+            y1 = margenYsup + longitudEjeY - (int) ((double) (normalAprox.probabilidad((x1 - origenX) / proporcionX + min) * coefPF));
+            //System.out.println("'till then: " + n * normalAprox.probabilidad((x1-origenX)/proporcionX + min));
             x2 = x1 + 1;
-            y2 = margenYsup + longitudEjeY - (int) ((double)(normalAprox.probabilidad((x2-origenX)/proporcionX + min)*proporcionY));
+            y2 = margenYsup + longitudEjeY - (int) ((double) (normalAprox.probabilidad((x2 - origenX) / proporcionX + min) * coefPF));
             //ahora sigue dibujar la linea.
             pluma.drawLine(x1, y1, x2, y2);
             //graficar un punto
@@ -92,9 +172,9 @@ public class CurvaDeDistribucion extends Grafica {
             x1++;
         }
     }
-    
-    
-    private double obtenerProbabilidadMaxima() {
+
+    private double obtenerProbabilidadMaxima(Distribucion dist, Distribucion normalAprox, double min, double max) {
+
         double pMax = Double.MIN_VALUE,
                 aux;
         if (!(dist.getClass() == DistribucionNormal.class)) {
@@ -111,7 +191,30 @@ public class CurvaDeDistribucion extends Grafica {
                     pMax = aux;
                 }
             }
-        }else{
+        } else {
+            pMax = dist.probabilidad(dist.calcularMedia());
+        }
+        return pMax;
+    }
+
+    private double obtenerProbabilidadMaxima() {
+        double pMax = Double.MIN_VALUE,
+                aux;
+        if (!(dist.getClass() == DistribucionNormal.class)) {
+            if (dist.getTipo() == Distribucion.Tipos.Continua) {
+                for (double i = min; i < max; i += 0.0001) {
+                    aux = dist.probabilidad(i);
+                    if (pMax < aux) {
+                        pMax = aux;
+                    }
+                }
+            } else {
+                aux = dist.probabilidad(dist.calcularMedia());
+                if (aux > pMax) {
+                    pMax = aux;
+                }
+            }
+        } else {
             pMax = dist.probabilidad(dist.calcularMedia());
         }
         return pMax;

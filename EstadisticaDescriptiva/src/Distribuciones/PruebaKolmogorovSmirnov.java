@@ -208,7 +208,6 @@ public class PruebaKolmogorovSmirnov {
         }else if(significancia == 0.01){
             numerador = 1.63;
         }
-        System.out.println("significancia: "  + significancia);
         return (double)(numerador / (double)Math.sqrt(n));
     }
     
