@@ -12,6 +12,7 @@ public class PruebaKolmogorovSmirnov {
     double[] frecuenciasRE,
             frecuenciasRO,
             desviacionesA;
+    boolean error;
     double desviacionMaxima, //  -La desviacion máxima obtenida
             desviacionCritica, // -La desviacion máxima esperada
             significancia;  // - El porcentaje de significancia.
@@ -93,6 +94,10 @@ public class PruebaKolmogorovSmirnov {
             frecuenciasRE[i] = dist.probabilidadAc(valoresDistintos.get(i));
             desviacionesA[i] = Math.abs(frecuenciasRO[i] - frecuenciasRE[i]);
             //System.out.println(desviacionesA[i]);
+            if(Double.isNaN(desviacionesA[i])){
+                error = true;
+                return false;
+            }
             if(desviacionesA[i] > desviacionMaxima){
                 desviacionMaxima = desviacionesA[i];
             }
@@ -211,10 +216,14 @@ public class PruebaKolmogorovSmirnov {
     
     
     public String getDetalles(){
+        if(error){
+            return "<b>No se puede afirmar o negar si los datos siguen la distribución propuesta" 
+                    + "<br>parece que se ha rebasado el límite valor máximo de alguna variable </b>";
+        }
         boolean cumple = desviacionMaxima < desviacionCritica;
-        String detalles= "<b>Los datos " + ((!cumple)? "NO " : " ") + " siguen una distribucion " + dist.getNombre()
-                + " con una desviacion maxima de " + desviacionMaxima + ((cumple)? " menor " : " mayor ")
-                + " a la critica " + desviacionCritica + "</b>";
+        String detalles= "<b>Los datos " + ((!cumple)? "NO " : " ") + " siguen una distribución " + dist.getNombre()
+                + " con una desviación máxima de " + desviacionMaxima + ((cumple)? " menor " : " mayor ")
+                + " a la crítica " + desviacionCritica + ", usando un porcentaje de significancia de " + (significancia*100) + "</b>";
         detalles  += "<table border = '1px'><tr><td>Dato</td>"
                 + "<td>Frecuencia</td>"
                 + "<td>FRA Observada</td>"

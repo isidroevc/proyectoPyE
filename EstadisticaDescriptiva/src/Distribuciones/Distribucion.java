@@ -2,9 +2,14 @@
  * Distribucion.java
  * 
  * De esta clase abstracta derivarán las clases de las demás distribuciones
+ * contiene los métodos abstractos que se heredarán a las demás.
+ * 
  */
 package Distribuciones;
-
+/**
+ * 
+ * @author Vásquez Cortés Isidro Emmanuel
+ */
 public abstract class Distribucion {
     // -Atributos
     protected Tipos tipo;

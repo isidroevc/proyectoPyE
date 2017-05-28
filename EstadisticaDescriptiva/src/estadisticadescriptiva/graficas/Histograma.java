@@ -349,10 +349,12 @@ public class Histograma extends Grafica {
         x1 = margenX + espacioAnterior;
         while (x1 < longitudEjeX  + origenX) {
             //obtener coordenada Y del punto a graficar.
-            y1 = margenYsup + longitudEjeY - (int)((double)(n * normalAprox.probabilidad((x1-origenX)/proporcionX + min)*coefPF));
+            y1 = margenYsup + longitudEjeY - (int)((double)(n * normalAprox.probabilidad((x1-origenX)
+                    /proporcionX + min)*coefPF));
             //System.out.println("'till then: " + n * normalAprox.probabilidad((x1-origenX)/proporcionX + min));
             x2 = x1 + 1;
-            y2 = margenYsup + longitudEjeY - (int) ((double)(n * normalAprox.probabilidad((x2-origenX)/proporcionX + min)*coefPF));
+            y2 = margenYsup + longitudEjeY - (int) ((double)(n * normalAprox.probabilidad((x2-origenX)
+                    /proporcionX + min)*coefPF));
             //ahora sigue dibujar la linea.
             pluma.drawLine(x1, y1, x2, y2);
             //graficar un punto

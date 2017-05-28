@@ -26,9 +26,9 @@ public class CurvaDeDistribucion extends Grafica {
     public final static float GROSOR_ESTANDAR = 2.5f;
     public final static int ANCHO_ESTANDAR = 640;
     public final static int ALTO_ESTANDAR = 480;
-    public final static int MIN_ANCHO_BARRA = 2;
 
-    private Distribucion dist, normalAprox;
+    private Distribucion dist;
+    private Distribucion normalAprox;
     private double min, max;
 
     public CurvaDeDistribucion(int anchura, int altura, Distribucion dist, double min, double max, Color fondo) {
@@ -48,12 +48,9 @@ public class CurvaDeDistribucion extends Grafica {
         int margenX,
                 margenYinf,
                 margenYsup,
-                nClases,
-                anchoBarra,
                 longitudEjeX,
                 longitudGuia,
                 longitudEjeY,
-                alturaBarra,
                 escala,
                 noEscalas,
                 longitudDivY,
@@ -65,12 +62,15 @@ public class CurvaDeDistribucion extends Grafica {
                 y1,
                 y2,
                 origenX;
-        double coefPF, proporcionX,
+        double proporcionY, proporcionX,
                 cifraEscala,
                 amplitudEscala,
                 datoMinimo,
                 rango = max - min,
-                probabilidadMaxima = obtenerProbabilidadMaxima(dist, normalAprox, min, max);
+                probabilidadMaxima = obtenerProbabilidadMaxima(dist, 
+                        normalAprox, 
+                        min,
+                        max);
         normalAprox = dist;
         if (dist.getTipo() != Distribucion.Tipos.Continua) {
             normalAprox = new DistribucionNormal(dist.calcularMedia(), dist.calcularDesviacionE());
@@ -83,7 +83,7 @@ public class CurvaDeDistribucion extends Grafica {
         margenYsup = (int) (altura * 0.5 * MARGEN_Y);
         longitudEjeX = anchura - 2 * margenX;
         longitudEjeY = (altura - margenYsup - margenYinf);
-        coefPF = (double) longitudEjeY / probabilidadMaxima;
+        proporcionY = (double) longitudEjeY / probabilidadMaxima;
         grafica = new BufferedImage(anchura, altura, BufferedImage.TYPE_INT_RGB);
         pluma = (Graphics2D) grafica.getGraphics();
         pluma.setColor(fondo);
@@ -110,7 +110,7 @@ public class CurvaDeDistribucion extends Grafica {
         i = margenYsup;
         for (int j = 0; j <= noEscalas; j++) {
             pluma.drawLine(margenX - longitudDivY, i, margenX, i);
-            cifraEscala = (double) (noEscalas - j) * (escala / coefPF);
+            cifraEscala = (double) (noEscalas - j) * (escala / proporcionY);
             cifraEscalaStr = formato.format(cifraEscala);
             pluma.drawString(cifraEscalaStr,
                     margenX - pluma.getFontMetrics().stringWidth(cifraEscalaStr) - longitudDivY,
@@ -154,15 +154,17 @@ public class CurvaDeDistribucion extends Grafica {
 
         origenX = margenX + espacioAnterior;
         pluma.setColor(Color.RED);
-        coefPF = (double) longitudEjeY / (probabilidadMaxima);
+        proporcionY = (double) longitudEjeY / (probabilidadMaxima);
         proporcionX = longitudEjeX / (max - min);
         x1 = margenX + espacioAnterior;
         while (x1 < longitudEjeX + origenX) {
             //obtener coordenada Y del punto a graficar.
-            y1 = margenYsup + longitudEjeY - (int) ((double) (normalAprox.probabilidad((x1 - origenX) / proporcionX + min) * coefPF));
+            y1 = margenYsup + longitudEjeY - (int) ((double) (normalAprox.probabilidad((x1 - origenX)
+                    / proporcionX + min) * proporcionY));
             //System.out.println("'till then: " + n * normalAprox.probabilidad((x1-origenX)/proporcionX + min));
             x2 = x1 + 1;
-            y2 = margenYsup + longitudEjeY - (int) ((double) (normalAprox.probabilidad((x2 - origenX) / proporcionX + min) * coefPF));
+            y2 = margenYsup + longitudEjeY - (int) ((double) (normalAprox.probabilidad((x2 - origenX)
+                    / proporcionX + min) * proporcionY));
             //ahora sigue dibujar la linea.
             pluma.drawLine(x1, y1, x2, y2);
             //graficar un punto
@@ -172,7 +174,9 @@ public class CurvaDeDistribucion extends Grafica {
         }
     }
 
-    private double obtenerProbabilidadMaxima(Distribucion dist, Distribucion normalAprox, double min, double max) {
+    private double obtenerProbabilidadMaxima(Distribucion dist, 
+            Distribucion normalAprox, 
+            double min, double max) {
 
         double pMax = Double.MIN_VALUE,
                 aux;

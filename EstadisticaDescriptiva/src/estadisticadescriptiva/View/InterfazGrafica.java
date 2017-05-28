@@ -122,7 +122,7 @@ public class InterfazGrafica extends JFrame {
         cTamañoP = new JTextField();
         cTamañoH = new JTextField();
         cCasos = new JTextField();
-        cConfiabilidad = new JComboBox(new String[]{"0.20","0.15","0.1", "0.05","0.01"});
+        cConfiabilidad = new JComboBox(new String[]{"20","15","10", "5","1"});
         hipergeometrica = new JRadioButton("Hipergeométrica:");
         tamaño = new JLabel("Numero de eventos o");        
         tamaño2 = new JLabel("Tamaño de la muestra");        
@@ -143,7 +143,7 @@ public class InterfazGrafica extends JFrame {
         this.getContentPane().add(panel);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setIconImage(new ImageIcon("src/estadisticadescriptiva/View/Escudo-ITL.jpg").getImage());
+        this.setIconImage(new ImageIcon("Escudo-ITL.jpg").getImage());
         
         cConfiabilidad.setSelectedIndex(0);
         
@@ -194,7 +194,7 @@ public class InterfazGrafica extends JFrame {
 
         separadorGroup.add(otrossep);
 
-        fondo.setIcon(new ImageIcon("src/estadisticadescriptiva/View/banner2016.png"));
+        fondo.setIcon(new ImageIcon("banner2016.png"));
         fondo.setBounds(0, 0, 800, 97);
         fondo.setFocusable(false);
 
@@ -410,10 +410,10 @@ public class InterfazGrafica extends JFrame {
                   break;
               }
               controlador.manejarCorrerClick(true,
-                        (String) separadores.getSelectedItem(),Double.parseDouble((String)cConfiabilidad.getSelectedItem()),dist);
+                        (String) separadores.getSelectedItem(),Double.parseDouble((String)cConfiabilidad.getSelectedItem())/100,dist);
                 
             }else{
-                controlador.manejarCorrerClick(false, cSeparador.getText(),Double.parseDouble((String)cConfiabilidad.getSelectedItem()),dist);
+                controlador.manejarCorrerClick(false, cSeparador.getText(),Double.parseDouble((String)cConfiabilidad.getSelectedItem())/100,dist);
             }
             cArchivo.setText("");
         }

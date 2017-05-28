@@ -159,7 +159,7 @@ public class DatosEnBruto extends Datos {
         double moda;
         String sesgo;
         if(modas == null)
-            return "No gat sesgo";
+            return "No hay sesgo";
         if(modas.size() > 1){
             sesgo = "Se trata de una muestra multimodal.";
         }else{

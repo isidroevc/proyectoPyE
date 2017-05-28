@@ -7,7 +7,6 @@ import Distribuciones.Distribucion;
 import Distribuciones.DistribucionNormal;
 import Distribuciones.DistribucionPoisson;
 import Distribuciones.PruebaKolmogorovSmirnov;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import estadisticadescriptiva.View.InterfazGrafica;
 import estadisticadescriptiva.datos.ArchivoDeDatos;
 import estadisticadescriptiva.datos.DatosAgrupados;

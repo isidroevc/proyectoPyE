@@ -9,19 +9,19 @@ package Distribuciones;
  */
 public class DistribucionHipergeometrica extends Distribucion{
     // -Atributos
-    int nP,//Tamaño de la poblacion
-            n , //Tamaño de la muestra 
-            k; // Casos de exito en la poblacion.
+    int nP;//Tamaño de la poblacion
+    int n ; //Tamaño de la muestra 
+    int k; // Casos de exito en la poblacion.
 
     public DistribucionHipergeometrica(int nP, int n, int k) {
         this.nP = nP;
         this.n = n;
         this.k = k;
         this.tipo = Tipos.Discreta;
-        this.nombre = "Hipergeomegrica";
+        this.nombre = "Hipergeométrica";
     }
     public DistribucionHipergeometrica(){
-        this.nombre = "Hipergeomegrica";
+        this.nombre = "Hipergeométrica";
     }
     
     @Override
