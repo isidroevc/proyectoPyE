@@ -158,6 +158,8 @@ public class DatosEnBruto extends Datos {
         ArrayList<Double> modas = this.calcularModa();
         double moda;
         String sesgo;
+        if(modas == null)
+            return "No gat sesgo";
         if(modas.size() > 1){
             sesgo = "Se trata de una muestra multimodal.";
         }else{

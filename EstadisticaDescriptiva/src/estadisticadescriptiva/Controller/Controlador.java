@@ -3,11 +3,16 @@
  */
 package estadisticadescriptiva.Controller;
 
+import Distribuciones.Distribucion;
+import Distribuciones.DistribucionNormal;
+import Distribuciones.DistribucionPoisson;
+import Distribuciones.PruebaKolmogorovSmirnov;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 import estadisticadescriptiva.View.InterfazGrafica;
 import estadisticadescriptiva.datos.ArchivoDeDatos;
 import estadisticadescriptiva.datos.DatosAgrupados;
 import estadisticadescriptiva.datos.DatosEnBruto;
+import estadisticadescriptiva.graficas.CurvaDeDistribucion;
 import estadisticadescriptiva.graficas.Histograma;
 import java.awt.Desktop;
 import java.io.File;
@@ -70,17 +75,21 @@ public class Controlador{
         }
     }
 
-    public void manejarCorrerClick(boolean separadorPorDefecto, String sep) {
+    public void manejarCorrerClick(boolean separadorPorDefecto, String sep, double significancia ,Distribucion dist) {
         //Verificar que se haya seleccionado un archivo 
         boolean valido = true;
         int i = 0;
         String separador = null;
+        String nombre = dist.getNombre();
         String html = "<html><header><meta charset = 'UTF-8'></header><body><center><h1>Reporte de los datos.</h1><br>";
         double[] datos;
+        boolean cumple;
         ArchivoDeDatos archivoDatos;
         DatosEnBruto datosBruto;
+        PruebaKolmogorovSmirnov pruebaKS;
         DatosAgrupados datosAgrupados;
         Histograma histograma;
+        CurvaDeDistribucion curva;
         FileWriter w;
         if (archivo == null) {
             valido = false;
@@ -121,10 +130,21 @@ public class Controlador{
                 System.out.println(archivoDatos.getErrores());
             }
             archivo = null;
+            
             datosBruto = new DatosEnBruto(datos);
+            if(dist.getClass() == DistribucionNormal.class){
+                dist = new DistribucionNormal(datosBruto.calcularMedia(), datosBruto.calcularDeviacionE());
+            }else if(dist.getClass() == DistribucionPoisson.class){
+                dist = new DistribucionPoisson(datosBruto.calcularMedia());
+            }
+            datos = datosBruto.getDatos();
             datosAgrupados = new DatosAgrupados(datosBruto, DatosAgrupados.FormulasNC.Sturges);
-            histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados);
-            histograma.dibujar();
+           
+            //Hacer prueba de kolmogorov
+            pruebaKS = new PruebaKolmogorovSmirnov(datosBruto.getDatos(), dist, significancia, true);
+            cumple = pruebaKS.analizar();
+            //---
+            
             System.out.println("Reporte de los datos: \n Con datos sin agrupar" 
                     + datosBruto.toString()
                     + "\n===============================\n"
@@ -151,9 +171,18 @@ public class Controlador{
                     + "<p>Desviacion E.: " + datosAgrupados.calcularDeviacionE()+ "</p>"
                     + "<p>Sesgo: " + datosAgrupados.calcularSesgo()+ "</p>"
                     + datosAgrupados.getTablaHtml()
-                    + "<img src = 'histograma.png'/></center></body></html>";
+                    + "<img src = 'histograma.png'/>"
+                    + "<br><img src = 'curva.png'/>"
+                    + "<h1>Prueba de Komogorov-Smirnov con distribución " + nombre + "</h1>"
+                    +  pruebaKS.getDetalles() 
+                    + "</center></body></html>";
+            curva = new CurvaDeDistribucion(640, 480, dist, datos[0], datos[datos.length - 1],Color.WHITE);
+            histograma = new Histograma(640, 480, Color.WHITE, datosAgrupados);
+            histograma.dibujar(dist);
+            curva.dibujar();
             try {
                 histograma.guardarEnDisco("histograma.png", "PNG");
+                curva.guardarEnDisco("curva.png", "PNG");
                 w = new FileWriter(new File("reporte.html"));
                 w.write(html);
                 w.close();

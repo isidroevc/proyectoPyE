@@ -20,7 +20,9 @@ public class DistribucionHipergeometrica extends Distribucion{
         this.tipo = Tipos.Discreta;
         this.nombre = "Hipergeomegrica";
     }
-    
+    public DistribucionHipergeometrica(){
+        this.nombre = "Hipergeomegrica";
+    }
     
     @Override
     public double probabilidad(double x) {
@@ -59,5 +61,8 @@ public class DistribucionHipergeometrica extends Distribucion{
                 n = this.n;
         return ((nP -  n)/(nP - 1)) * n * (k/nP) *(1 - k/nP);
     }
-    
+    @Override
+    public DistribucionHipergeometrica clone(){
+        return new DistribucionHipergeometrica(nP,n,k);
+    }
 }

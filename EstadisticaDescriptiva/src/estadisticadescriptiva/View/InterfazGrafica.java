@@ -5,6 +5,11 @@
  */
 package estadisticadescriptiva.View;
 
+import Distribuciones.Distribucion;
+import Distribuciones.DistribucionBinomial;
+import Distribuciones.DistribucionHipergeometrica;
+import Distribuciones.DistribucionNormal;
+import Distribuciones.DistribucionPoisson;
 import estadisticadescriptiva.Controller.Controlador;
 import estadisticadescriptiva.EstadisticaDescriptiva;
 import static java.awt.Color.BLACK;
@@ -23,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -60,16 +67,18 @@ public class InterfazGrafica extends JFrame {
     private JTextField cTamañoP;
     private JTextField cCasos;
     private JTextField cTamañoH;
-    private JTextField cConfiabilidad;
-    private JCheckBox normal;
-    private JCheckBox binomial;
-    private JCheckBox poisson;
-    private JCheckBox hipergeometrica;
+    private JComboBox cConfiabilidad;
+    private JRadioButton normal;
+    private JRadioButton binomial;
+    private JRadioButton poisson;
+    private JRadioButton hipergeometrica;
+    private ButtonGroup grupo;
     
-
     private Controlador controlador;
     private FileChooser dialogoArchivo;
-
+    
+    private boolean norm, pois, binom, hiper;
+    private int distribucion;
     public InterfazGrafica() {
 
     }
@@ -98,30 +107,30 @@ public class InterfazGrafica extends JFrame {
         separadorGroup = new ButtonGroup();
         dialogoArchivo = new FileChooser();
         comparar = new JLabel ("Comparar datos de la muesta con:");
-        normal = new JCheckBox("Normal");
-        poisson = new JCheckBox("Poisson");
-        binomial = new JCheckBox("Binomial:");
+        normal = new JRadioButton("Normal");
+        poisson = new JRadioButton("Poisson");
+        binomial = new JRadioButton("Binomial:");
         n = new JLabel("n");
         p = new JLabel("p");
         N = new JLabel("N");
         k = new JLabel("k");
         nH = new JLabel("n");
-        confiabilidad = new JLabel("Porcentaje de Confiabilidad:");
+        confiabilidad = new JLabel("Porcentaje de Significancia:");
         confiabilidad1 = new JLabel("%");
         cTamaño = new JTextField();
         cProbabilidad = new JTextField();
         cTamañoP = new JTextField();
         cTamañoH = new JTextField();
         cCasos = new JTextField();
-        cConfiabilidad = new JTextField();
-        hipergeometrica = new JCheckBox("Hipergeométrica:");
+        cConfiabilidad = new JComboBox(new String[]{"0.20","0.15","0.1", "0.05","0.01"});
+        hipergeometrica = new JRadioButton("Hipergeométrica:");
         tamaño = new JLabel("Numero de eventos o");        
-        tamaño2 = new JLabel("tamaño de la muestra");        
+        tamaño2 = new JLabel("Tamaño de la muestra");        
         tamañoH = new JLabel("Tamaño de la muesta");
         probabilidad = new JLabel("Probabilidad de éxito");
         casos = new JLabel("Casos de éxito en la poblacion");
         tamañoP = new JLabel("Tamaño de la poblacion");
-        
+        grupo = new ButtonGroup();
         
     }
 
@@ -135,7 +144,9 @@ public class InterfazGrafica extends JFrame {
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setIconImage(new ImageIcon("src/estadisticadescriptiva/View/Escudo-ITL.jpg").getImage());
-
+        
+        cConfiabilidad.setSelectedIndex(0);
+        
         panel.setLayout(null);
         otrossep.addActionListener(new OtroSeparadorClick());
 
@@ -262,8 +273,15 @@ public class InterfazGrafica extends JFrame {
         confiabilidad1.setFont(new Font("Arial", Font.BOLD, 16));
         
         cConfiabilidad.setBounds(250, 566, 150, 30);
+        grupo.add(normal);
+        grupo.add(poisson);
+        grupo.add(binomial);
+        grupo.add(hipergeometrica);
         
-        
+        normal.addActionListener(new NormalClick());
+        binomial.addActionListener(new BinomialClick());
+        poisson.addActionListener(new PoissonClick());
+        hipergeometrica.addActionListener(new HiperClick());
         correr.setBounds(600, 600, 100, 30);
         correr.addActionListener(new CorrerClick());
     }
@@ -334,16 +352,200 @@ public class InterfazGrafica extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             //Verthissi si se haya seleccionado un archivo.
-
+            Distribucion dist = null;
+            int _n = 0, _k, _nP;
+            double probabilidad;
             if (separador.isSelected()) {
+              switch(distribucion){
+                  case 0: 
+                      dist = new DistribucionNormal();
+                  break;
+                  case 1:
+                      dist = new DistribucionPoisson();
+                  break;
+                  case 2:
+                      //validar datos 
+                      try{
+                          _n = Integer.parseInt(cTamaño.getText());
+                          probabilidad = Double.parseDouble(cProbabilidad.getText());
+                          
+                      }catch(Exception ex){
+                          mandarMensaje("El tamaño de la muestra debe de ser un entero." 
+                                  + "\n La probabilidad deve ser un unmero decimal entre 0 y 1");
+                          return;
+                      }
+                      if(_n < 0){
+                          mandarMensaje("El tamaño de la muestra debe de ser un entero." 
+                                  + "\n La probabilidad deve ser un unmero decimal entre 0 y 1");
+                          return;
+                      }
+                      if(probabilidad < 0 || probabilidad > 1){
+                          mandarMensaje("El tamaño de la muestra debe de ser un entero." 
+                                  + "\n La probabilidad deve ser un unmero decimal entre 0 y 1");
+                          return;
+                      }
+                      dist = new DistribucionBinomial(_n, probabilidad);
+                      System.out.println(dist.getNombre());
+                  break;
+                  
+                  
+                  case 3: 
+                      try{
+                          _nP = Integer.parseInt(cTamañoP.getText());
+                          _k = Integer.parseInt(cCasos.getText());
+                          _n = Integer.parseInt(cTamañoH.getText());
+                          
+                          System.out.println(_nP + " " + _k + " " + _n );
+                      }catch(Exception ex){
+                          mandarMensaje("Todos los datos deben ser enteros" 
+                                  + "\n k debe ser menor o igual que N");
+                          return;
+                      }
+                      if(_k > _nP){
+                          mandarMensaje("Todos los datos deben ser enteros" 
+                                  + "\n k debe ser menor o igual que N");
+                          return;
+                      }
+                      dist = new DistribucionHipergeometrica(_nP, _n, _k);
+                  break;
+              }
               controlador.manejarCorrerClick(true,
-                        (String) separadores.getSelectedItem());
+                        (String) separadores.getSelectedItem(),Double.parseDouble((String)cConfiabilidad.getSelectedItem()),dist);
                 
             }else{
-                controlador.manejarCorrerClick(false, cSeparador.getText());
+                controlador.manejarCorrerClick(false, cSeparador.getText(),Double.parseDouble((String)cConfiabilidad.getSelectedItem()),dist);
             }
             cArchivo.setText("");
         }
 
     }
+    
+     private class NormalClick implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JRadioButton rb = (JRadioButton)e.getSource();
+            norm = rb.isSelected();
+            
+            binom = !norm;
+            hiper = !norm;
+            pois = !norm;
+            
+            probabilidad.setEnabled(binom);
+            n.setEnabled(binom);
+            cTamaño.setEnabled(binom);
+            cProbabilidad.setEnabled(binom);
+            k.setEnabled(hiper);
+            N.setEnabled(hiper);
+            tamañoP.setEnabled(hiper);
+            tamaño.setEnabled(binom);
+            tamañoH.setEnabled(hiper);
+            nH.setEnabled(hiper);
+            casos.setEnabled(hiper);
+            cCasos.setEnabled(hiper);
+            cTamañoH.setEnabled(hiper);
+            cTamañoP.setEnabled(hiper);
+            p.setEnabled(binom);
+            tamaño2.setEnabled(binom);
+            distribucion = 0;
+        }
+         
+     }
+     
+     private class PoissonClick implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JRadioButton rb = (JRadioButton)e.getSource();
+            pois = rb.isSelected();
+            binom = !pois;
+            hiper = !pois;
+            norm = !pois;
+            
+            probabilidad.setEnabled(binom);
+            n.setEnabled(binom);
+            cTamaño.setEnabled(binom);
+            cProbabilidad.setEnabled(binom);
+            k.setEnabled(hiper);
+            N.setEnabled(hiper);
+            tamañoP.setEnabled(hiper);
+            tamaño.setEnabled(binom);
+            tamañoH.setEnabled(hiper);
+            nH.setEnabled(hiper);
+            casos.setEnabled(hiper);
+            cCasos.setEnabled(hiper);
+            cTamañoH.setEnabled(hiper);
+            cTamañoP.setEnabled(hiper);
+            p.setEnabled(binom);
+            tamaño2.setEnabled(binom);
+            distribucion = 1;
+        }
+         
+     }
+     
+     private class BinomialClick implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JRadioButton rb = (JRadioButton)e.getSource();
+            binom = rb.isSelected();
+            
+            pois = !binom;
+            hiper = !binom;
+            norm = !binom;
+            
+           probabilidad.setEnabled(binom);
+            n.setEnabled(binom);
+            cTamaño.setEnabled(binom);
+            cProbabilidad.setEnabled(binom);
+            k.setEnabled(hiper);
+            N.setEnabled(hiper);
+            tamañoP.setEnabled(hiper);
+            tamaño.setEnabled(binom);
+            tamañoH.setEnabled(hiper);
+            nH.setEnabled(hiper);
+            casos.setEnabled(hiper);
+            cCasos.setEnabled(hiper);
+            cTamañoH.setEnabled(hiper);
+            cTamañoP.setEnabled(hiper);
+            p.setEnabled(binom);
+            tamaño2.setEnabled(binom);
+            distribucion = 2;
+        }
+         
+     }
+     
+     private class HiperClick implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            JRadioButton rb = (JRadioButton)e.getSource();
+            hiper = rb.isSelected();
+            pois = !hiper;
+            binom = !hiper;
+            norm = !hiper;
+            
+            probabilidad.setEnabled(binom);
+            n.setEnabled(binom);
+            cTamaño.setEnabled(binom);
+            cProbabilidad.setEnabled(binom);
+            k.setEnabled(hiper);
+            N.setEnabled(hiper);
+            tamañoP.setEnabled(hiper);
+            tamaño.setEnabled(binom);
+            tamañoH.setEnabled(hiper);
+            nH.setEnabled(hiper);
+            casos.setEnabled(hiper);
+            cCasos.setEnabled(hiper);
+            cTamañoH.setEnabled(hiper);
+            cTamañoP.setEnabled(hiper);
+            p.setEnabled(binom);
+            tamaño2.setEnabled(binom);
+            distribucion = 3;
+        }
+
+       
+         
+     }
 }

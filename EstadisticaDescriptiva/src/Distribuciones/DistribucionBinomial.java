@@ -15,11 +15,17 @@ public class DistribucionBinomial extends Distribucion{
     private double p;
     private int    n;
 
+    public DistribucionBinomial(){
+        this.nombre = "Binomial";
+    }
+    
     public DistribucionBinomial(int n, double p) {
         this.p = p;
         this.n = n;
-        this.nombre= "Binomial";
+        this.nombre = "Binomial";
     }
+    
+    
     
     @Override
     public double probabilidad(double x) {
@@ -50,5 +56,10 @@ public class DistribucionBinomial extends Distribucion{
     @Override
     public double calcularVarianza() {
         return (double)n * p * (1 - p);
+    }
+    
+    @Override
+    public DistribucionBinomial clone(){
+        return new DistribucionBinomial(n, p);
     }
 }

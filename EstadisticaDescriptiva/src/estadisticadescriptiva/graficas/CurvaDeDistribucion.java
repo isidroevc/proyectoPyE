@@ -72,7 +72,6 @@ public class CurvaDeDistribucion extends Grafica {
                 rango = max - min,
                 probabilidadMaxima = obtenerProbabilidadMaxima(dist, normalAprox, min, max);
         normalAprox = dist;
-        System.out.println("max prob: " + probabilidadMaxima);
         if (dist.getTipo() != Distribucion.Tipos.Continua) {
             normalAprox = new DistribucionNormal(dist.calcularMedia(), dist.calcularDesviacionE());
         }
@@ -121,7 +120,7 @@ public class CurvaDeDistribucion extends Grafica {
         }
         noEscalas = 8;
         //trazar escala en X
-
+        
         longitudGuia = longitudEjeX;
         escala = longitudGuia / noEscalas;
         pluma.drawLine(margenX + espacioAnterior,
@@ -146,7 +145,7 @@ public class CurvaDeDistribucion extends Grafica {
         }
 
         //Colocar leyenda "Histograma"
-        leyendas = "Histograma";
+        leyendas = "Curva de distribucion";
         pluma.drawString(leyendas, (anchura - (pluma.getFontMetrics().stringWidth(leyendas))) / 2,
                 espacioAnterior * 2);
         leyendas = "Unidades";

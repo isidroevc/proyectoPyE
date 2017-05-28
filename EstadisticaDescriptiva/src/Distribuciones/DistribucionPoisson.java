@@ -12,10 +12,19 @@ package Distribuciones;
 public class DistribucionPoisson extends Distribucion{
     
     private double lamda;
-
+    
+    public DistribucionPoisson(){
+        this.nombre = "Poisson";
+    }
+    
+    
     public DistribucionPoisson(double lamda) {
         this.lamda = lamda;
         this.nombre = "Poisson";
+    }
+    
+    public void setLambda(double lambda){
+        this.lamda = lambda;
     }
     
     @Override
@@ -47,5 +56,8 @@ public class DistribucionPoisson extends Distribucion{
     public double calcularVarianza() {
         return lamda;
     }
-    
+    @Override
+    public DistribucionPoisson clone(){
+        return new DistribucionPoisson(lamda);
+    }
 }

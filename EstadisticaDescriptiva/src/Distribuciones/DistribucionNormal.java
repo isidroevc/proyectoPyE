@@ -19,13 +19,20 @@ public class DistribucionNormal extends Distribucion{
     private double media; 
     private double desviacionE;
     private static final double DX = 0.00001;
+    
+    public DistribucionNormal(){
+        this.nombre = "Normal";
+    }
+    
     public DistribucionNormal(double media, double desviacionE) {
         this.media = media;
         this.desviacionE = desviacionE;
         this.nombre = "Normal";
     }
     
-    
+    public void setMedia(double media){
+        this.media = media;
+    }
     
     @Override
     public double probabilidad(double x) {
@@ -73,5 +80,10 @@ public class DistribucionNormal extends Distribucion{
     @Override
     public double calcularVarianza() {
         return desviacionE * desviacionE;
+    }
+    
+    @Override
+    public DistribucionNormal clone(){
+        return new DistribucionNormal(media, desviacionE);
     }
 }

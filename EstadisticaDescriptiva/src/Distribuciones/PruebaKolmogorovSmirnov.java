@@ -98,7 +98,6 @@ public class PruebaKolmogorovSmirnov {
             }
             
         }
-        System.out.println("DM: "  + desviacionMaxima + " DC: " + desviacionCritica);
         return desviacionMaxima < desviacionCritica;
     }
 
@@ -212,12 +211,15 @@ public class PruebaKolmogorovSmirnov {
     
     
     public String getDetalles(){
-        String detalles = "<table border = '1px'><tr><td>Dato</td>"
+        boolean cumple = desviacionMaxima < desviacionCritica;
+        String detalles= "<b>Los datos " + ((!cumple)? "NO " : " ") + " siguen una distribucion " + dist.getNombre()
+                + " con una desviacion maxima de " + desviacionMaxima + ((cumple)? " menor " : " mayor ")
+                + " a la critica " + desviacionCritica + "</b>";
+        detalles  += "<table border = '1px'><tr><td>Dato</td>"
                 + "<td>Frecuencia</td>"
                 + "<td>FRA Observada</td>"
                 + "<td>FRA Esperada</td>"
                 + "<td>Desviacion Absouluta</td></tr>";
-        boolean cumple = desviacionMaxima < desviacionCritica;
         for(int i = 0, c = valoresDistintos.size(); i < c; i++){
             detalles += "<tr" + ((desviacionesA[i] == desviacionMaxima)? " bgcolor = '#FF0000'":"") + ">";
             detalles+= "<td>" + valoresDistintos.get(i) + "</td>"
@@ -227,9 +229,7 @@ public class PruebaKolmogorovSmirnov {
                     +  "<td>" + desviacionesA[i] + "</td></tr>";
         }
         detalles+= "</table><br>";
-        detalles+= "Los datos " + ((!cumple)? "NO " : " ") + " siguen una distribucion " + dist.getNombre()
-                + " con una desviacion maxima de " + desviacionMaxima + ((cumple)? " menor " : " mayor ")
-                + " a la critica " + desviacionCritica;
+        
         return detalles;
     }
 }
