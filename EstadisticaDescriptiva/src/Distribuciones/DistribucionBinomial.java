@@ -1,4 +1,4 @@
-/**
+    /**
  * DistribucionBinomial.java
  * 
  * Representa una funcion de distribucion Binomial 

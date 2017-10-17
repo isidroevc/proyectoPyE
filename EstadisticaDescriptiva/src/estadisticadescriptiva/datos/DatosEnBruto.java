@@ -60,6 +60,14 @@ public class DatosEnBruto extends Datos {
             }
         }
     }
+    
+    public double getMayor() {
+        return this.datos[this.datos.length - 1];
+    }
+    
+    public double getMenor() {
+        return this.datos[0];
+    }
 
     @Override
     public double calcularMedia() {
