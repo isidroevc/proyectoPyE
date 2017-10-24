@@ -12,10 +12,12 @@ public class PruebaKolmogorovSmirnov {
     double[] frecuenciasRE,
             frecuenciasRO,
             desviacionesA;
-    boolean error;
+    boolean error, 
+            cumple;
     double desviacionMaxima, //  -La desviacion máxima obtenida
             desviacionCritica, // -La desviacion máxima esperada
             significancia;  // - El porcentaje de significancia.
+            
     Distribucion dist; // -La distribucion a contrastar
     ArrayList<Double> valoresDistintos;
     ArrayList<Integer> frecuencias;
@@ -103,9 +105,12 @@ public class PruebaKolmogorovSmirnov {
             }
             
         }
-        return desviacionMaxima < desviacionCritica;
+        return cumple = desviacionMaxima < desviacionCritica;
     }
-
+    
+    public boolean cumple() {
+        return this.cumple;
+    }
     public double[] getDatos() {
         return datos;
     }

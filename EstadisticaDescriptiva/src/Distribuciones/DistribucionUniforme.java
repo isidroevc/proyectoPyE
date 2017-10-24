@@ -25,6 +25,14 @@ public class DistribucionUniforme extends Distribucion{
         this.nombre = "Uniforme";
     }
     
+    public DistribucionUniforme( double a, double b) {
+        this.t = t;
+        this.preCalculada = (double)1 / (b - a);
+        this.a = a;
+        this.b = b;
+        this.nombre = "Uniforme";
+    }
+    
     // -Métodos de acceso
     public boolean setT(int t) {
         boolean result;
@@ -60,7 +68,7 @@ public class DistribucionUniforme extends Distribucion{
 
     @Override
     public double probabilidadAc(double x) {
-       return ((x - a) * preCalculada);
+       return (x - a)/(b-a);
     }
 
     @Override
