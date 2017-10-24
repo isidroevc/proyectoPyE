@@ -15,7 +15,7 @@ import estadisticadescriptiva.datos.DatosEnBruto;
  * @author Alison
  */
 public class ImplementacionKT {
-    static String[] motores = {"bm", "bmx", "dm", "dmx", "python-", "cpp", "java-", "R-", "VB"};
+    static String[] motores = {"bm-", "bmx-", "dm-", "dmx-", "python-", "cpp", "java-", "R-", "VB"};
     static String[] nombres = {"BM", "BMX", "DM", "DMX", "python", "cpp", "java", "R", "VB"};
     static int[] inicios = {1,1,1,1,1,0,0,0,0};
     static String[] separadores = {",", ",", ",", ",", ",", ",", ",", "\n", ","};
@@ -27,12 +27,15 @@ public class ImplementacionKT {
         ImplementacionKT kt = new ImplementacionKT();
         
         for(int i = 0; i < 9; i++){
-            mensaje += kt.analizarArchivos(nombres[i], motores[i], inicios[i], 100 + inicios[i], i, separadores[i]);
+            mensaje += "\n" + kt.analizarArchivos(nombres[i], motores[i],
+                    inicios[i], 100 + inicios[i], i, separadores[i]);
         }
         System.out.println(mensaje);
     }
     
-    public String analizarArchivos(String carpeta,String nombre, int inicio, int fin, int indice, String separador){
+    public String analizarArchivos(String carpeta,String nombre,
+                                   int inicio, int fin, int indice,
+                                   String separador){
         ArchivoDeDatos arch;
         DatosEnBruto datos;
         DistribucionUniforme du;
