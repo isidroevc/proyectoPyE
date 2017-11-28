@@ -79,7 +79,6 @@ public class PruebaKolmogorovSmirnov {
                 frecuencias.add(frecuenciaActual);
             }
         }
-        
         //Ahora sigue llenar el arreglo de frecuencias relativas
         
         frecuenciasRO = new double[valoresDistintos.size()];
@@ -89,7 +88,6 @@ public class PruebaKolmogorovSmirnov {
         desviacionMaxima = Double.MIN_VALUE;
         
         frecuenciaAc = 0;
-        
         for(int i =0,c = frecuenciasRO.length; i < c; i++){
             frecuenciaAc += frecuencias.get(i);
             frecuenciasRO[i] = (double)frecuenciaAc/n;

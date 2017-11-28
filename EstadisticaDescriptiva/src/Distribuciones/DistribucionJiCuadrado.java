@@ -13,11 +13,11 @@ public class DistribucionJiCuadrado extends Distribucion {
     
     private double k;
     private double partePrec;
-    private static final double DX = 0.00001;
+    private static final double DX = 0.0001;
     
     public DistribucionJiCuadrado(double k) {
         this.k = k;
-        
+        this.tipo = Tipos.Continua;
     }
     
     public double getK() {

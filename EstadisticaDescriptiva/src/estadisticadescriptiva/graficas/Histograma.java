@@ -344,14 +344,12 @@ public class Histograma extends Grafica {
         origenX = margenX + espacioAnterior;
         pluma.setColor(Color.RED);
         coefPF = (double)longitudEjeY / (n * obtenerProbabilidadMaxima(dist, normalAprox, min, max));
-        System.out.println(n * obtenerProbabilidadMaxima(dist, normalAprox, min, max));
         proporcionX = longitudEjeX / (max - min);
         x1 = margenX + espacioAnterior;
         while (x1 < longitudEjeX  + origenX) {
             //obtener coordenada Y del punto a graficar.
             y1 = margenYsup + longitudEjeY - (int)((double)(n * normalAprox.probabilidad((x1-origenX)
                     /proporcionX + min)*coefPF));
-            //System.out.println("'till then: " + n * normalAprox.probabilidad((x1-origenX)/proporcionX + min));
             x2 = x1 + 1;
             y2 = margenYsup + longitudEjeY - (int) ((double)(n * normalAprox.probabilidad((x2-origenX)
                     /proporcionX + min)*coefPF));
